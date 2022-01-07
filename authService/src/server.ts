@@ -35,7 +35,7 @@ const server = new ApolloServer({
 
 server.listen(4001).then(({ url }) => {
   connectDb();
-  console.log(`🚀 Auth service ready at ${url}`);
+  console.log(`Auth service ready at ${url}`);
 });
 
 // const app = express();

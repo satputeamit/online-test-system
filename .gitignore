@@ -9,6 +9,7 @@ build/Release
 node_modules/
 jspm_packages/
 /node_modules/
+zdbdata/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
