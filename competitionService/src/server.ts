@@ -8,6 +8,11 @@ import qaTypeDefs from "./schemas/QuesAns.typedefs";
 import qaResolvers from "./resolvers/QuesAns.resolvers";
 import examTypeDefs from "./schemas/Exam.typedefs";
 import examResolvers from "./resolvers/Exam.resolvers";
+import participantsTypeDefs from "./schemas/Participant.typedefs";
+import participantsResolvers from "./resolvers/Participant.resolvers";
+import resultTypeDefs from "./schemas/Result.typedefs";
+import resultResolvers from "./resolvers/Result.resolver";
+
 
 import mongoose from "mongoose";
 
@@ -20,6 +25,9 @@ const server = new ApolloServer({
     { typeDefs: subTypeDefs, resolvers: subResolvers },
     { typeDefs: qaTypeDefs, resolvers: qaResolvers },
     { typeDefs: examTypeDefs, resolvers: examResolvers },
+    { typeDefs: participantsTypeDefs, resolvers: participantsResolvers },
+    { typeDefs: resultTypeDefs, resolvers: resultResolvers },
+
   ]),
 
   context: async ({ req }) => {
