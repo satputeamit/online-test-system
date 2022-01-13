@@ -15,25 +15,27 @@ import resultResolvers from "./resolvers/Result.resolver";
 
 
 import mongoose from "mongoose";
+import { permissions } from "./helper/permissions";
+
 
 async function connectDb() {
   await mongoose.connect("mongodb://127.0.0.1:27017/competitionService");
 }
 
 const server = new ApolloServer({
-  schema: buildSubgraphSchema([
+  schema: applyMiddleware(buildSubgraphSchema([
     { typeDefs: subTypeDefs, resolvers: subResolvers },
     { typeDefs: qaTypeDefs, resolvers: qaResolvers },
     { typeDefs: examTypeDefs, resolvers: examResolvers },
     { typeDefs: participantsTypeDefs, resolvers: participantsResolvers },
     { typeDefs: resultTypeDefs, resolvers: resultResolvers },
 
-  ]),
+  ]),permissions),
 
   context: async ({ req }) => {
     if (req.headers.user) {
       const user = JSON.parse(req.headers.user as string);
-      console.log(user);
+      console.log("user :",user);
       return { user };
     }
     return {};

@@ -17,15 +17,42 @@ const canReadWriteOwnAccount = rule()((_:any, args:any, { user }:any) => {
   return userPermissions.includes("rw:own_account");
 });
 
+const canReadOwnResult = rule()((_:any, args:any, { user }:any) => {
+  const userPermissions = getPermissions(user);
+  return userPermissions.includes("rw:own_account");
+});
+
+const isOrganizer = rule()((_:any, args:any, { user }:any) => {
+  const userPermissions = getPermissions(user);
+  return userPermissions.includes("rw:organizer_account");
+});
+
+const isCandidate = rule()((_:any, args:any, { user }:any) => {
+  const userPermissions = getPermissions(user);
+  return userPermissions.includes("rw:candidate_account");
+});
+
+const isAdmin= rule()((_:any, args:any, { user }:any) => {
+  const userPermissions = getPermissions(user);
+  return userPermissions.includes("rw:admin_account");
+});
+
 
 
 const permissions = shield({
-  Query: {   
-    usersProfile: isAuthenticated
+  Query: {      
+    getExams:isAuthenticated,
+    getParticipants:isOrganizer,
+    getQAData:isOrganizer,
+    getResults:or(canReadOwnResult,isOrganizer),
+    getSubjects:isAuthenticated
     
   },
-  Mutation:{
-    createUserProfile: canReadWriteOwnAccount
+  Mutation:{   
+    createExam : isOrganizer,
+    addParticipants:isOrganizer,
+    createQuesAns:isOrganizer,
+    addSubject:or(isOrganizer, isAdmin)
   }
 });
 

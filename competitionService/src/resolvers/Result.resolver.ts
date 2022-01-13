@@ -8,16 +8,16 @@ const resolvers = {
       return exam
     },
   },
-  Mutation: {
-    addResult: async (_: any, args: any) => {
-      const input = args.input;
-      const isValid = validateAddResult(input);
-      if (isValid) {
-        return await Result.create(input);
-      }
-      throw new Error("Invalid Request");
-    },
-  },
+  // Mutation: {
+  //   addResult: async (_: any, args: any) => {
+  //     const input = args.input;
+  //     const isValid = validateAddResult(input);
+  //     if (isValid) {
+  //       return await Result.create(input);
+  //     }
+  //     throw new Error("Invalid Request");
+  //   },
+  // },
 
   Result: {
     async __resolveReference(pr: ResultInterface) {

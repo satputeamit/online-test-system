@@ -6,12 +6,12 @@ const typeDefs = gql`
     id: ID!
     email: String!
     password: String!
-    role: Role
+    role: Roles
     permissions: [String]
     
   }  
 
-  enum Role {
+  enum Roles {
     ADMIN
     ORGANIZER
     CANDIDATE    
@@ -29,7 +29,7 @@ const typeDefs = gql`
   input createUserInput{    
     email: String!
     password: String!
-    role: Role    
+    role: Roles  
   }
 
   extend type Mutation {

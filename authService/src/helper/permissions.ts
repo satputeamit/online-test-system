@@ -22,17 +22,24 @@ const canReadWriteOwnAccount = rule()((_:any, args:any, { user }:any) => {
   return userPermissions.includes("rw:own_account");
 });
 
+const isAdmin = rule()((_:any, args:any, { user }:any) => {
+  const userPermissions = getPermissions(user);
+  return userPermissions.includes("rw:admin_account");
+});
+
 // const isReadingOwnAccount = rule()((_:any, { id }:any, { user }:any) => {
 //   return user && user.id === id;
 // });
 
 const permissions = shield({
   Query: {   
-    usersProfile: isAuthenticated
+    usersProfile: isAuthenticated,
+    getRoles:isAuthenticated
     
   },
   Mutation:{
-    createUserProfile: canReadWriteOwnAccount
+    createUserProfile: canReadWriteOwnAccount,
+    addRole:isAdmin
   }
 });
 
