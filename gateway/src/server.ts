@@ -3,10 +3,13 @@ import { ApolloServer } from "apollo-server-express";
 import express, { Request, Response } from "express";
 import expressJwt from "express-jwt";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 const port = 4000;
 const app = express();
+
+app.use(cors())
 
 app.use(
   expressJwt({
