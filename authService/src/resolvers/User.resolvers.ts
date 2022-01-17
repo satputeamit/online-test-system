@@ -34,6 +34,7 @@ const resolvers = {
 
     createUser: async (_: any, args: any)=> {
       const input = args.input;
+      console.log(input)
       const isValid = validateCreateUser(input)     
       if(isValid){
         const usr = await User.create(input);
