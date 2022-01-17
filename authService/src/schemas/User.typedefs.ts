@@ -31,9 +31,9 @@ const typeDefs = gql`
     password: String!
     role: Roles  
   }
-
+ 
   extend type Mutation {
-    login(input: LoginCreds): String
+    login(input: LoginCreds):String
     createUser(input :createUserInput):User
   }
 

@@ -9,8 +9,8 @@ import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        appBar:{
-            backgroundColor:"black"
+        appBar: {
+            backgroundColor: "black"
         },
         root: {
             flexGrow: 1,
@@ -26,19 +26,31 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function NavBar() {
     const classes = useStyles();
-
+    const loggedIn = window.localStorage.getItem("accessToken")
     return (
         <div>
             <AppBar className={classes.appBar} position="static">
-                <Toolbar>                   
+                <Toolbar>
                     <Typography variant="h6" className={classes.title} align="left">
                         <Link to="/" className="menu-items">Online Test System</Link>
                     </Typography>
                     <IconButton edge="end" color="inherit">
 
                     </IconButton>
-                   
-                    <Link to="/signup" className="menu-items"><Button color="inherit">Sign Up</Button></Link>
+                    {loggedIn ?
+                        <div>
+                            <span style={{color:"skyblue"}}>
+                               Welcome {window.localStorage.getItem("emailId")}
+                            </span>
+                            <Link to="/dashboard" className="menu-items"><Button color="inherit">Dashboard</Button></Link>
+
+                            <Link to="/logout" className="menu-items"><Button color="inherit">Logout</Button></Link>
+                        </div>
+
+                        :
+                        <Link to="/signup" className="menu-items"><Button color="inherit">Sign Up</Button></Link>
+
+                    }
                 </Toolbar>
             </AppBar>
         </div>

@@ -17,6 +17,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { LOGIN } from "../../apis/mutations";
 import store from "../../store";
 import { observer, Observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -72,20 +73,25 @@ const CssTextField = withStyles({
 
 
 
-const HomeComponent = () => {
+const HomeComponent = observer(() => {
     const classes = useStyles();
+    const navigate = useNavigate();
     const [creds, setCreds] = useState<any>({});
     const [err, setErr] = useState<boolean>(false);
     const [login, { data, loading, error }] = useMutation(LOGIN);
-
+   
     useEffect(() => {
         if (error) {
             window.localStorage.removeItem("accessToken")
             setErr(true)
         }
         if (data) {
-            window.localStorage.setItem("accessToken", data.login);
+            var _data = JSON.parse((data.login))
+            window.localStorage.setItem("accessToken", _data.access_token);
+            window.localStorage.setItem("emailId", _data.email);
             setErr(false)
+            navigate("/dashboard")
+           
         }
     }, [error, data])
 
@@ -116,7 +122,7 @@ const HomeComponent = () => {
                     <br></br>
                     <Grid container direction="column">
                         <Grid item>
-                            <CssTextField name="email" id="custom-email" label="Email" onChange={(e) => {
+                            <CssTextField name="email" type="email" id="custom-email" label="Email" onChange={(e) => {
 
                                 setCreds((data: any) => ({ ...data, email: e.target.value }))
                             }
@@ -140,6 +146,7 @@ const HomeComponent = () => {
                                 style={{ marginLeft: "-125px" }}
                                 onClick={() => {
                                     login({ variables: { email: creds.email, password: creds.password } })
+                                    
                                 }}
                             >
                                 Login
@@ -155,6 +162,6 @@ const HomeComponent = () => {
         </div>
     );
 }
-
+);
 
 export default HomeComponent;

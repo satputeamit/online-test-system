@@ -25,8 +25,11 @@ const resolvers = {
           permissions: user?.permissions
         };
         const jwtScret = process.env.JWTSCRET || "";
-
-        return jwt.sign(payload, jwtScret, {algorithm: "HS256", subject: user?.id, expiresIn: "5m" });
+        var data = JSON.stringify({
+          "access_token":jwt.sign(payload, jwtScret, {algorithm: "HS256", subject: user?.id, expiresIn: "5m" }),
+          "email": user?.email        
+        });
+        return data;
       }
 
       throw new Error("Invalid credentials");

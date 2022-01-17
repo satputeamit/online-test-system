@@ -80,6 +80,9 @@ const SignUp = () => {
     const [flag, setFlag] = useState<boolean>(false);
     const [err, setErr] = useState<boolean>(false);
     const [createUser, { data, loading, error }] = useMutation(SIGNUP);
+    useEffect(()=>{
+        setFlag(false)
+    },[])
 
     useEffect(() => {
         if (error) {
