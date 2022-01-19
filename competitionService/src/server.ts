@@ -1,5 +1,5 @@
 import { ApolloServer } from "apollo-server";
-import { buildSubgraphSchema } from "@apollo/federation";
+import { buildSubgraphSchema } from "@apollo/subgraph";
 import { applyMiddleware } from "graphql-middleware";
 
 import subTypeDefs from "./schemas/Subject.typedefs";
@@ -12,10 +12,14 @@ import participantsTypeDefs from "./schemas/Participant.typedefs";
 import participantsResolvers from "./resolvers/Participant.resolvers";
 import resultTypeDefs from "./schemas/Result.typedefs";
 import resultResolvers from "./resolvers/Result.resolver";
+import compilerTypeDefs from "./schemas/Compiler.typedefs";
+import compilerResolvers from "./resolvers/Compiler.resolvers";
 
 
 import mongoose from "mongoose";
 import { permissions } from "./helper/permissions";
+import { GraphQLResolverMap } from "apollo-graphql";
+
 
 
 async function connectDb() {
@@ -29,6 +33,7 @@ const server = new ApolloServer({
     { typeDefs: examTypeDefs, resolvers: examResolvers },
     { typeDefs: participantsTypeDefs, resolvers: participantsResolvers },
     { typeDefs: resultTypeDefs, resolvers: resultResolvers },
+    { typeDefs: compilerTypeDefs, resolvers: compilerResolvers},
 
   ]),permissions),
 

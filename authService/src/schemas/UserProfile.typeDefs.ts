@@ -15,9 +15,11 @@ type UserProfile{
   extend type User {   
     userprofile: UserProfile
   }
+  
 
   extend type Query {
     usersProfile: [UserProfile]
+    getUserInfo:UserProfile
   }  
 
   input createUserProfileInput{     

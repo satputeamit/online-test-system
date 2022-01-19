@@ -2,7 +2,7 @@ import {gql} from 'apollo-server';
 
 const typeDefs = gql`
   
-type Exam{
+type Exam @key(fields: "id"){
     id: ID! 
     subjectid:String!   
     organizerid:String!

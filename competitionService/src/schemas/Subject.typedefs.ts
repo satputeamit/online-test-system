@@ -6,6 +6,10 @@ const typeDefs = gql`
     name: String!
   }
 
+  extend type Exam {   
+    subject: Subject
+  }
+
   extend type Query {
     getSubjects: [Subject]
   }

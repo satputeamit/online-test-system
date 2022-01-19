@@ -7,17 +7,26 @@ type QuesAns{
     subjectid:String
     question: String
     answer: String
+    inputs: [String]
+    outputs: [String]
     organizerid:String
   }
  
+  input examQAInput{     
+    examId:String
+  }
+
   extend type Query {
     getQAData: [QuesAns]
+    getExamsQA(input:examQAInput):[QuesAns]
   }  
 
   input createQuesAns{     
     subjectid:String
     question: String
     answer: String
+    inputs: [String]
+    outputs: [String]
     organizerid:String
   }
 

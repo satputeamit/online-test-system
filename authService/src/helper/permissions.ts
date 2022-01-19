@@ -34,7 +34,8 @@ const isAdmin = rule()((_:any, args:any, { user }:any) => {
 const permissions = shield({
   Query: {   
     usersProfile: isAuthenticated,
-    getRoles:isAuthenticated
+    getRoles:isAuthenticated,
+    getUserInfo:isAuthenticated
     
   },
   Mutation:{

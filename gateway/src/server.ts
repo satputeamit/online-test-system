@@ -32,6 +32,7 @@ const gateway = new ApolloGateway({
     return new RemoteGraphQLDataSource({
       url,
       willSendRequest({ request, context }: any) {
+        console.log("us :", context.user)
         request.http.headers.set(
           "user",
           context.user ? JSON.stringify(context.user) : null

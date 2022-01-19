@@ -79,18 +79,23 @@ const HomeComponent = observer(() => {
     const [creds, setCreds] = useState<any>({});
     const [err, setErr] = useState<boolean>(false);
     const [login, { data, loading, error }] = useMutation(LOGIN);
-   
+    
     useEffect(() => {
         if (error) {
             window.localStorage.removeItem("accessToken")
+            window.localStorage.removeItem("emailId")
             setErr(true)
+            store.setLoggedIn(false)
         }
         if (data) {
-            var _data = JSON.parse((data.login))
-            window.localStorage.setItem("accessToken", _data.access_token);
-            window.localStorage.setItem("emailId", _data.email);
+            // var _data = JSON.parse((data.login))
+            window.localStorage.setItem("accessToken", data.login);
+            console.log("login token :", data.login)
+            // window.localStorage.setItem("emailId", _data.email);
             setErr(false)
+            store.setLoggedIn(true)
             navigate("/dashboard")
+           
            
         }
     }, [error, data])
@@ -146,6 +151,7 @@ const HomeComponent = observer(() => {
                                 style={{ marginLeft: "-125px" }}
                                 onClick={() => {
                                     login({ variables: { email: creds.email, password: creds.password } })
+                                    .then((d:any)=>window.localStorage.setItem("accessToken", d.login))
                                     
                                 }}
                             >

@@ -1,4 +1,5 @@
 import { validateAddSubject } from "../helper/validator";
+import Exam, { ExamInterface } from "../models/ExamInfo.model";
 import Subject, { SubjectInterface } from "../models/Subject.model";
 
 const resolvers = {
@@ -19,9 +20,18 @@ const resolvers = {
     },
   },
 
-  Subject: {
-    async __resolveReference(sub: SubjectInterface) {
-      return Subject.findOne(sub.id);
+  // Subject: {
+  //   async __resolveReference(sub: SubjectInterface) {
+  //     return Subject.findOne(sub.id);
+  //   },
+  // },
+  Exam: {
+    async __resolveReference(ex: ExamInterface) {
+      return Exam.findOne(ex.id);
+    },
+    async subject(ex: ExamInterface): Promise<typeof Subject> {
+      const data: any = await Subject.findOne({ _id: ex.subjectid});
+      return data;
     },
   },
 };

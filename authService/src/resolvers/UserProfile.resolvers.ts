@@ -12,6 +12,25 @@ const resolvers = {
       const usr = await UserProfile.find();
       return usr;
     },
+    getUserInfo: async (_: any, args: any, context: any)=>{
+      const user = context.user;
+      console.log("user:", user)
+      const userprof = await UserProfile.findOne({ user_id: user.id });
+      if(userprof){
+        return userprof
+      }
+
+      var userData={
+        user_id: user.id,
+        first_name: user.username,
+        last_name: "",
+        mobile_number: null,
+        profile_pic:""
+      }
+
+      return userData;
+      
+    }
   },
 
   Mutation: {
