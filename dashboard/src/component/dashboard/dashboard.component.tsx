@@ -6,27 +6,32 @@ import store from "../../store";
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 
+
+
 const Dashboard = observer(() => {
     const loggedIn = window.localStorage.getItem("accessToken")
     if (!loggedIn) return <Navigate to="/" />;
     const { loading, error, data } = useQuery(GET_USER_PROFILE);
-    
+
     console.log("error", error)
-    useEffect(()=>{
+    useEffect(() => {
         if (data) {
             console.log("data dash :", data)
             var userInfo = data.getUserInfo;
             window.localStorage.setItem("username", userInfo.first_name)
             store.setUsername(userInfo.first_name)
-            
-    
-        }
-    },[data])
 
+
+        }
+    }, [data])
+
+    function onChange(newValue:any) {
+        console.log("change", newValue);
+      }
       
     return (
         <div>
-            <ExamList></ExamList>
+            <ExamList></ExamList>            
         </div>)
 }
 );

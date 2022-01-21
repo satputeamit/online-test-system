@@ -5,7 +5,7 @@ import SignUp from "../signup/Signup.component";
 import Dashboard from "../dashboard/dashboard.component";
 import { observer } from "mobx-react-lite";
 import Exam from "../exam/Exam.component";
-
+import CodeEditor from "../exam/CodeEditor.component";
 
 
 const Base = () => {
@@ -20,7 +20,7 @@ const Base = () => {
                 <Route path="/signup" element={<SignUp />}></Route>
                 <Route path="/dashboard" element={<Dashboard />}></Route>
                 <Route path="/exam" element={<Exam />}></Route>
-                
+                <Route path="/code-editor" element={<CodeEditor />}></Route>
                
                
             </Routes>

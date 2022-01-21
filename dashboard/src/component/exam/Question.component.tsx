@@ -25,38 +25,40 @@ const useStyles = makeStyles({
 
 
 
-const QuestionCard =observer((props:any)=>{
+const QuestionCard = observer((props: any) => {
     const classes = useStyles();
     const navigate = useNavigate()
     const data = props.data;
     const question_no = props.question_no;
-
-    const startExam =(examId:String)=>{
-        store.setExamId(examId)
-        navigate("/exam")
+    
+    const openEditor = (examId: string, question: string, description: string) => {
+        localStorage.setItem("questionId", examId)
+        localStorage.setItem("selectedQuestion", question)
+        localStorage.setItem("currentDescruption", description)
+        navigate("/code-editor")
     }
 
-    return(
+    return (
         <>
-        <Card key={data.id+1}className={classes.root}>
-        <CardContent>
-            <Typography className={classes.title} color="textSecondary" gutterBottom>
-              
-            </Typography>
-            <Typography variant="h6" component="h2">
-               Question: {question_no}
-            </Typography>
-            <Typography variant="h6" component="h2">
-                <b>{data.question}</b>
-            </Typography>           
-            
+            <Card key={data.id + 1} className={classes.root}>
+                <CardContent>
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
 
-        </CardContent>
-        <CardActions>
-            <Button  onClick={()=>{startExam(data.id)}}>Upload answer</Button>
-        </CardActions>
-    </Card>
-    </>
+                    </Typography>
+                    <Typography variant="h6" component="h2">
+                        Question: {question_no}
+                    </Typography>
+                    <Typography variant="h6" component="h2">
+                        <b>{data.question}</b>
+                    </Typography>
+
+
+                </CardContent>
+                <CardActions>
+                    <Button onClick={() => { openEditor(data.id, data.question, "") }}>Write you code here</Button>
+                </CardActions>
+            </Card>
+        </>
     )
 });
 export default QuestionCard;
