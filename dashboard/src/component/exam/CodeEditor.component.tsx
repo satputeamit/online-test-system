@@ -6,7 +6,7 @@ import "ace-builds/src-noconflict/theme-xcode";
 import "ace-builds/src-noconflict/theme-dracula";
 import { Button, createStyles, Grid, makeStyles, Theme } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { CODE_EXEC } from "../../apis/mutations";
+import { CODE_EXEC, CODE_SUBMIT } from "../../apis/mutations";
 import { useMutation } from "@apollo/client";
 import store from "../../store";
 import { observer } from "mobx-react-lite";
@@ -23,14 +23,26 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
+const template =`${`# Please write your code in my_function().
+
+
+def my_function(data):
+    # write your code here
+    return data
+
+
+`}`
 
 const CodeEditor = observer(() => {
+
+
     const classes = useStyles();
     const navigate = useNavigate()
-    const [code, setCode] = useState({ code: "", language: "" })
+    const [code, setCode] = useState({ code: template, language: "" })
     const [stdout, setStdout] = useState(String)
     const [stderr, setStderr] = useState(String)
     const [codeExec, { data, loading, error }] = useMutation(CODE_EXEC);
+    const [codeSubmit, codeSub] = useMutation(CODE_SUBMIT);
 
     const examId = store.examId
     const question = localStorage.getItem("selectedQuestion")
@@ -56,6 +68,17 @@ const CodeEditor = observer(() => {
         }
     }, [data, error])
 
+    useEffect(() => {
+        if (codeSub.data) {
+            console.log("data:", codeSub.data.codeSubmit)
+
+        }
+        if (codeSub.error) {
+            console.log("error:", codeSub.error)
+           
+        }
+    }, [codeSub.data, codeSub.error])
+
     const onChange = (newValue: any) => {
         console.log("change", newValue);
         setCode((data: any) => ({ ...data, code: newValue }))
@@ -80,6 +103,15 @@ const CodeEditor = observer(() => {
 
     const submitCode = () => {
         console.log("submit :", code.code)
+        codeSubmit({
+            variables: {
+                code: code.code,
+                language: "python",
+                user_id: user_id,
+                exam_id: examId,
+                question_id: questionId
+            }
+        })
     }
 
     return (
@@ -120,7 +152,10 @@ const CodeEditor = observer(() => {
 
                         showPrintMargin={true}
                         showGutter={true}
-                    />
+                        defaultValue={code.code}
+                    >
+                        
+                    </AceEditor>
                     <div style={{ backgroundColor: "black", color: "gray", textAlign: "left", padding: "5px", height: "41.3vh" }}>
                         <div style={{ display: "inline" }}>
                             <span style={{ fontWeight: "bold" }} >&gt;&gt; &nbsp;Output</span>

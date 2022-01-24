@@ -44,3 +44,4 @@ dist
 .temp
 .cache
 .py
+*.py

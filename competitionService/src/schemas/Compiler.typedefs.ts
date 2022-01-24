@@ -31,6 +31,7 @@ type File{
   extend type Mutation {    
     uploadFile(file :Upload!):File!
     codeExec(input:FileDataInput):CodeExecType!
+    codeSubmit(input:FileDataInput):Boolean!
   }
 
 `;

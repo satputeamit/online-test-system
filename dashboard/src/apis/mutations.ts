@@ -26,3 +26,10 @@ mutation($code:String!, $language:String!, $user_id:String!, $exam_id: String!, 
 }
 `
 
+export const CODE_SUBMIT = gql`
+mutation($code:String!, $language:String!, $user_id:String!, $exam_id: String!, $question_id: String!)
+{
+ codeSubmit(input: {content:$code, language:$language, user_id:$user_id, exam_id:$exam_id, question_id: $question_id})
+}
+`
+
