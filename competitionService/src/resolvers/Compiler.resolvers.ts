@@ -65,18 +65,19 @@ const resolvers: any = {
             const ques = await QuesAns.findOne({ _id: input.question_id });
             const ques_inputs = ques?.inputs || [];
             const ques_outputs = ques?.outputs || [];
-
+            console.log(ques_inputs)
+            console.log(ques_outputs)
             writeFinalFile(fileName, input.content);
             try {
                 var testOp: any = [];
 
                 for (let i = 0; i < ques_inputs?.length; i++) {
                     var exeoutput = await executeCode(
-                        "ff_" + fileName + " " + ques_inputs[i]
+                        `ff_${fileName} "${ques_inputs[i]}"`
                     );
                     testOp.push(exeoutput.stdout.trim());
                 }
-
+                console.log(testOp)
                 if (JSON.stringify(testOp) === JSON.stringify(ques_outputs)) {
                     return true;
                 } else {
