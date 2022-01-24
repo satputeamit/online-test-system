@@ -19,6 +19,7 @@ const Dashboard = observer(() => {
             console.log("data dash :", data)
             var userInfo = data.getUserInfo;
             window.localStorage.setItem("username", userInfo.first_name)
+            window.localStorage.setItem("user_id", userInfo.user_id)
             store.setUsername(userInfo.first_name)
 
 

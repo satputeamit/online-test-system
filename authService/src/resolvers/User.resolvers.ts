@@ -15,37 +15,42 @@ const resolvers = {
   },
   Mutation: {
     login: async (_: any, args: any) => {
-      const { email, password } = args.input;     
+      const { email, password } = args.input;
       const user = await User.findOne({ email: email });
       if (await user?.comparePassword(password)) {
-      // if (user && user.password === password) {
+        // if (user && user.password === password) {
         const payload = {
           id: user?.id,
           username: user?.email,
-          permissions: user?.permissions
+          permissions: user?.permissions,
         };
-        const jwtScret = process.env.JWTSCRET || "";       
-        return jwt.sign(payload, jwtScret, {algorithm: "HS256", subject: user?.id, expiresIn: "5m" });
+        const jwtScret = process.env.JWTSCRET || "";
+        const expIn = process.env.EXP_IN || "10m";
+        return jwt.sign(payload, jwtScret, {
+          algorithm: "HS256",
+          subject: user?.id,
+          expiresIn: expIn,
+        });
       }
 
       throw new Error("Invalid credentials");
     },
 
-    createUser: async (_: any, args: any)=> {
+    createUser: async (_: any, args: any) => {
       const input = args.input;
-      console.log(input)
-      const isValid = validateCreateUser(input)     
-      if(isValid){
+      console.log(input);
+      const isValid = validateCreateUser(input);
+      if (isValid) {
         const usr = await User.create(input);
         return usr;
       }
       throw new Error("Invalid Request");
-    }
+    },
   },
 
   User: {
     async __resolveReference(user: UserInterface) {
-      return  User.findOne(user.id);
+      return User.findOne(user.id);
     },
     // async userprofile(user:UserInterface): Promise<typeof UserProfile>{
     //   console.log("userpf :",user.id)
@@ -53,8 +58,7 @@ const resolvers = {
     //   console.log("data :", data)
     //   return data
     // }
-
-  },  
+  },
 };
 
 export default resolvers;

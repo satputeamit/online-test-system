@@ -16,3 +16,13 @@ export const SIGNUP = gql`
   }
 `;
 
+export const CODE_EXEC = gql`
+mutation($code:String!, $language:String!, $user_id:String!, $exam_id: String!, $question_id: String!)
+{
+ codeExec(input: {content:$code, language:$language, user_id:$user_id, exam_id:$exam_id, question_id: $question_id}) {
+   stdout
+   stderr
+ }
+}
+`
+

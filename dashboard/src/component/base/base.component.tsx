@@ -9,8 +9,7 @@ import CodeEditor from "../exam/CodeEditor.component";
 
 
 const Base = () => {
-    const loggedIn = window.localStorage.getItem("accessToken")
-    console.log("base: ", loggedIn)
+    const loggedIn = window.localStorage.getItem("accessToken") 
     return (
         <div>
             <NavBar></NavBar>
