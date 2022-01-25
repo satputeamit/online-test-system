@@ -30,7 +30,7 @@ const QuestionCard = observer((props: any) => {
     const navigate = useNavigate()
     const data = props.data;
     const question_no = props.question_no;
-    
+
     const openEditor = (examId: string, question: string, description: string) => {
         localStorage.setItem("questionId", examId)
         localStorage.setItem("selectedQuestion", question)
@@ -46,16 +46,16 @@ const QuestionCard = observer((props: any) => {
 
                     </Typography>
                     <Typography variant="h6" component="h2">
-                        Question: {question_no}
+                        <b> Question: {question_no}</b>
                     </Typography>
                     <Typography variant="h6" component="h2">
-                        <b>{data.question}</b>
+                        {data.question}
                     </Typography>
 
 
                 </CardContent>
                 <CardActions>
-                    <Button onClick={() => { openEditor(data.id, data.question, "") }}>Write you code here</Button>
+                    <Button variant="outlined" color="primary" onClick={() => { openEditor(data.id, data.question, "") }}><b>Write your code here</b></Button>
                 </CardActions>
             </Card>
         </>

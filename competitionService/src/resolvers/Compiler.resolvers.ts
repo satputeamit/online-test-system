@@ -88,38 +88,34 @@ const resolvers: any = {
 
                 // result
                 const resultObj = await Result.findOne({ exam_id: input.exam_id, candidate_id: input.user_id })
+                console.log("resultObj:", resultObj?.id)
                 if (resultObj) {
-                    // console.log("rseult ques:", resultObj.question_status)
+                    console.log("rseult ques:", resultObj.question_status)
                     const doc = resultObj.question_status.find(({ question_id }) => question_id === input.question_id)
-                    // console.log("doc:",doc)
+                    console.log("doc:",doc)
                     if (doc) {
                         doc.status = answerStatus;
-                        // console.log("rseult ques insde:", resultObj.question_status)
-                        // console.log("doc inside:",doc)
-                        await Result.updateOne(
-                            { _id: resultObj.id },
-                            {question_id:resultObj.question_status}
+                        console.log("rseult ques insde:", resultObj.question_status)
+                        console.log("doc inside:",doc)
+                        const udp = await Result.updateOne(
+                            { _id: resultObj?.id },
+                            {question_status:resultObj.question_status}
                         );
+                        console.log("updated:",udp)
                     }
                     else {
-                        // console.log("in else")
-                        // var newData ={
-                        //     question_status: [...resultObj.question_status, {
-                        //         question_id: input.question_id,
-                        //         status: answerStatus
-                        //     }
-                        //     ]
-                        // }
-                        // console.log("new Data:", newData)
-                        await Result.updateOne(
-                            { _id: resultObj.id },
-                            {
-                                question_status: [...resultObj.question_status, {
-                                    question_id: input.question_id,
-                                    status: answerStatus
-                                }
-                                ]
+                        console.log("in else")
+                        var newData ={
+                            question_status: [...resultObj.question_status, {
+                                question_id: input.question_id,
+                                status: answerStatus
                             }
+                            ]
+                        }
+                        console.log("new Data:", newData)
+                        await Result.updateOne(
+                            { _id: resultObj?.id },
+                            newData
                         );
                     }
                 }

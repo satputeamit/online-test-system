@@ -11,6 +11,10 @@ import { useMutation } from "@apollo/client";
 import store from "../../store";
 import { observer } from "mobx-react-lite";
 import ShowPopup from "../modal/ShowPopup.component";
+import Icon from '@material-ui/core/Icon';
+import SaveIcon from '@material-ui/icons/Save';
+import PlayIcon from "@material-ui/icons/PlayArrow";
+import BackIcon from "@material-ui/icons/ArrowBack";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -43,6 +47,7 @@ const CodeEditor = observer(() => {
     const [stdout, setStdout] = useState(String)
     const [stderr, setStderr] = useState(String)
     const [msgModal, setMsgModal] = useState(false)
+    const [submitStatus, setSubmitStatus] = useState(false)
     const [popupMsg, setPopupMsg] = useState({title:"", description:"", navigateTo:""})
     const [codeExec, { data, loading, error }] = useMutation(CODE_EXEC);
     const [codeSubmit, codeSub] = useMutation(CODE_SUBMIT);
@@ -91,6 +96,7 @@ const CodeEditor = observer(() => {
     useEffect(() => {
         if (codeSub.data) {
             console.log("data:", codeSub.data.codeSubmit)
+            setSubmitStatus(codeSub.data.codeSubmit)
 
         }
         if (codeSub.error) {
@@ -152,13 +158,14 @@ const CodeEditor = observer(() => {
 
     return (
         <div>
-            {msgModal && popupMsg.title
-            ?<ShowPopup title={popupMsg.title} description={popupMsg.description} navigaetTo={popupMsg.navigateTo}/>
+
+            {msgModal 
+            ?<ShowPopup title={popupMsg.title} description={popupMsg.description} navigateTo={popupMsg.navigateTo}/>
             :<Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
                 <Grid item xs={5} style={{ textAlign: "left" }}>
 
                     <span style={{ color: "white", fontWeight: "bold" }}>Question:</span>
-                    <Button variant="contained" size="small" color="primary" className={classes.margin} onClick={goBack} style={{ float: "right" }}>Go back </Button>
+                    <Button  variant="contained" size="small" color="primary" className={classes.margin} startIcon={<BackIcon/>} onClick={goBack} style={{ float: "right" }}>Go back </Button>
 
                     <br></br>
                     <br></br>
@@ -197,10 +204,10 @@ const CodeEditor = observer(() => {
                     <div style={{ backgroundColor: "black", color: "gray", textAlign: "left", padding: "5px", height: "41.3vh" }}>
                         <div style={{ display: "inline" }}>
                             <span style={{ fontWeight: "bold" }} >&gt;&gt; &nbsp;Output</span>
-                        </div>
+                        </div>                        
                         <div style={{ display: "inline", float: "right" }}>
-                            <Button variant="contained" size="small" color="primary" className={classes.margin} onClick={executeCode}>Run </Button>
-                            <Button variant="contained" size="small" color="primary" className={classes.margin} onClick={submitCode}>Submit </Button>
+                            <Button variant="contained" size="small" color="primary" className={classes.margin} startIcon={<PlayIcon/>} onClick={executeCode}>Run </Button>
+                            <Button variant="contained" size="small" color="primary" className={classes.margin} startIcon={<SaveIcon />} onClick={submitCode}>Submit </Button>
                         </div>
                         <br />
                         <textarea disabled rows={2} style={{
@@ -221,7 +228,7 @@ const CodeEditor = observer(() => {
                 </Grid>
 
             </Grid>}
-          
+            {submitStatus?<ShowPopup title="Code submitted successfully..." description="Please click 'GO BACK' button."/>:<></>}
 
         </div>)
 }
