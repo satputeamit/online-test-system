@@ -10,6 +10,7 @@ import { CODE_EXEC, CODE_SUBMIT } from "../../apis/mutations";
 import { useMutation } from "@apollo/client";
 import store from "../../store";
 import { observer } from "mobx-react-lite";
+import ShowPopup from "../modal/ShowPopup.component";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -41,6 +42,8 @@ const CodeEditor = observer(() => {
     const [code, setCode] = useState({ code: template, language: "" })
     const [stdout, setStdout] = useState(String)
     const [stderr, setStderr] = useState(String)
+    const [msgModal, setMsgModal] = useState(false)
+    const [popupMsg, setPopupMsg] = useState({title:"", description:"", navigateTo:""})
     const [codeExec, { data, loading, error }] = useMutation(CODE_EXEC);
     const [codeSubmit, codeSub] = useMutation(CODE_SUBMIT);
 
@@ -63,8 +66,25 @@ const CodeEditor = observer(() => {
 
         }
         if (error) {
-            console.log("error:", error)
-            setStderr(data.codeExec.stderr)
+            console.log("error111:", error.graphQLErrors)
+            if(error.networkError?.message.split("<")[0].trim()==="Unexpected token"){
+                localStorage.removeItem("accessToken");
+                navigate("/")
+            }
+            else if(error.graphQLErrors[0].message.trim()==="Not Authorised!"){
+                console.log("Not Authorised!")
+                setPopupMsg({
+                    title:"Not Authorized!",
+                    description:"",
+                    navigateTo:"/dashboard"
+                })
+                setMsgModal(true)
+                
+            }
+            else{
+                setStderr(data.codeExec.stderr)
+            }
+            
         }
     }, [data, error])
 
@@ -74,13 +94,29 @@ const CodeEditor = observer(() => {
 
         }
         if (codeSub.error) {
+            if(codeSub.error.networkError?.message.split("<")[0].trim()=="Unexpected token"){
+                localStorage.removeItem("accessToken");
+                navigate("/")
+            }
+            else if(codeSub.error.graphQLErrors[0].message.trim()==="Not Authorised!"){
+                console.log("Not Authorised!")
+                setPopupMsg({
+                    title:"Not Authorized!",
+                    description:"",
+                    navigateTo:"/dashboard"
+                })
+                setMsgModal(true)
+                
+            }
+            else{
+
+            }
             console.log("error:", codeSub.error)
            
         }
     }, [codeSub.data, codeSub.error])
 
-    const onChange = (newValue: any) => {
-        console.log("change", newValue);
+    const onChange = (newValue: any) => {       
         setCode((data: any) => ({ ...data, code: newValue }))
     }
 
@@ -89,7 +125,7 @@ const CodeEditor = observer(() => {
     }
 
     const executeCode = () => {
-        console.log("run :", code.code)
+      
         codeExec({
             variables: {
                 code: code.code,
@@ -116,7 +152,9 @@ const CodeEditor = observer(() => {
 
     return (
         <div>
-            <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
+            {msgModal && popupMsg.title
+            ?<ShowPopup title={popupMsg.title} description={popupMsg.description} navigaetTo={popupMsg.navigateTo}/>
+            :<Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
                 <Grid item xs={5} style={{ textAlign: "left" }}>
 
                     <span style={{ color: "white", fontWeight: "bold" }}>Question:</span>
@@ -182,7 +220,8 @@ const CodeEditor = observer(() => {
 
                 </Grid>
 
-            </Grid>
+            </Grid>}
+          
 
         </div>)
 }

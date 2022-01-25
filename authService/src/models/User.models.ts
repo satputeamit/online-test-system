@@ -40,6 +40,7 @@ UserSchema.pre("save", async function (next) {
   const hash = bcrypt.hashSync(user?.password, salt);
   console.log("pass",hash)
   user.password = hash;
+  user.permissions.push(user?.role==="CANDIDATE"?"rw:candidate_account":"rw:organizer_account")
   return next();
 });
 

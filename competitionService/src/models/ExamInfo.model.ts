@@ -7,7 +7,7 @@ export interface ExamInterface extends mongoose.Document {
   total_question: number;
   need_to_be_correct:number;
   valid_till_hrs:number;
-  QuesAns_ids:string[];
+  ques_ans_ids:string[];
   createdAt: Date;
   updatedAt: Date;
 }

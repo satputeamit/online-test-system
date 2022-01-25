@@ -41,7 +41,7 @@ const resolvers = {
       console.log(input);
       const isValid = validateCreateUser(input);
       if (isValid) {
-        const usr = await User.create(input);
+        const usr = await User.create(input);        
         return usr;
       }
       throw new Error("Invalid Request");

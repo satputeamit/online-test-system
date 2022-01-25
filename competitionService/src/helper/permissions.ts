@@ -59,7 +59,8 @@ const permissions = shield({
     createQuesAns:isOrganizer,
     addSubject:or(isOrganizer, isAdmin),
     uploadFile:isAuthenticated,
-    // codeExec: isAuthenticated
+    codeExec: isCandidate,
+    codeSubmit: isCandidate,
   }
 });
 
