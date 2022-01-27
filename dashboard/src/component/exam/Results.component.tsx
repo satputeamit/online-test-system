@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { GET_RESULT } from "../../apis/queries"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import store from "../../store"
+import { Link } from "react-router-dom"
 
 const Results = observer(() => {
     const examId = store.examId
@@ -44,7 +45,11 @@ const Results = observer(() => {
                 </Grid>
                 <Grid item style={{ color: "white" }}>
                     <h2><b>Result:</b></h2><h1>{result.result_status}</h1>                    
-                </Grid>                
+                </Grid>   
+                      
+                <Grid item>
+                <span style={{ color: "white" }}>Go to the <Link to="/dashboard" style={{ color: "skyblue" }}>Dashboard</Link>.</span>    
+                </Grid>         
             </Grid>}
         </div>
     )

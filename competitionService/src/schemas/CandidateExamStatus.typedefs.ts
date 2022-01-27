@@ -6,7 +6,7 @@ const typeDefs = gql`
     exam_id:String!
     candidate_id:String!
     question_ids: [String]!
-    exam_status: String
+    exam_status: ExamStatus
   }
 
   input GetCandidateExamStatusInput{
@@ -25,8 +25,21 @@ const typeDefs = gql`
    
   }
 
+  enum ExamStatus {
+    PENDING
+    SUBMITTED        
+  }
+
+
+  input candidateExamStatusInput{
+      exam_id: String!
+      candidate_id: String!
+      exam_status: ExamStatus!
+  } 
+
   extend type Mutation {    
     createCandidateExamStatus(input :AddCandidateExamStatusInput):CandidateExamStatus
+    updateCandidateExamStatus(input:candidateExamStatusInput): String
   }
 
 `;

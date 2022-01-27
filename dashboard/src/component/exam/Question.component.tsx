@@ -55,7 +55,8 @@ const QuestionCard = observer((props: any) => {
 
                 </CardContent>
                 <CardActions>
-                    <Button variant="outlined" color="primary" onClick={() => { openEditor(data.id, data.question, "") }}><b>Write your code here</b></Button>
+                    {props.isFinalSubmitted?<p style={{color:"gray"}}>Answers submitted</p>:
+                    <Button variant="outlined" color="primary" onClick={() => { openEditor(data.id, data.question, "") }} ><b>Write your code here</b></Button>}
                 </CardActions>
             </Card>
         </>

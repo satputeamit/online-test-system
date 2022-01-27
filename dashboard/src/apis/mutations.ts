@@ -45,3 +45,10 @@ mutation($exam_id: String!, $candidate_id: String!, $question_id: String!){
 }
 `
 
+export const UPDATE_EXAM_STATUS = gql`
+mutation($exam_id: String!, $candidate_id: String!, $exam_status: ExamStatus! ){
+  updateCandidateExamStatus(input: {exam_id: $exam_id, candidate_id:$candidate_id, exam_status: $exam_status})
+}
+`
+
+
