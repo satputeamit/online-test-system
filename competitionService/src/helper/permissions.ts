@@ -50,6 +50,7 @@ const permissions = shield({
     getResults:or(canReadOwnResult,isOrganizer),
     getSubjects:isAuthenticated,
     hello:isAuthenticated,
+    // getCandidateExamStatus: isAuthenticated,
 
     
   },
@@ -61,6 +62,7 @@ const permissions = shield({
     uploadFile:isAuthenticated,
     codeExec: isCandidate,
     codeSubmit: isCandidate,
+    // createCandidateExamStatus:isAuthenticated,
   }
 });
 

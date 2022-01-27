@@ -50,3 +50,25 @@ query($examId: String!){
 }
 `;
 
+export const GET_RESULT= gql`
+query($exam_id: String, $candidate_id: String){
+  getResult(input: {exam_id:$exam_id,candidate_id: $candidate_id}) {    
+    subject
+    result_status
+  }
+}
+`;
+
+export const GET_CANDIDATE_EXAM_STATUS= gql`
+query($exam_id:String!, $candidate_id: String!){
+  getCandidateExamStatus(input: {exam_id: $exam_id, candidate_id: $candidate_id}){
+    id
+    candidate_id
+    exam_id
+    exam_status
+    question_ids
+
+  }
+}
+`;
+

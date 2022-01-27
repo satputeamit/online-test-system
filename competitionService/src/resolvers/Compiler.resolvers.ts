@@ -129,10 +129,8 @@ const resolvers: any = {
                             status:answerStatus
                         }]
                     })
-                }
-
-                //
-
+                }              
+                
                 return true;
             } catch (err) {
                 console.log(err)

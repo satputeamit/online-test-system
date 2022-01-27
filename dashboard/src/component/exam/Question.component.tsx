@@ -8,7 +8,7 @@ const useStyles = makeStyles({
     root: {
         minWidth: 275,
         maxWidth: "100%",
-        textAlign: "left"
+        textAlign: "left"        
     },
     bullet: {
         display: 'inline-block',
@@ -40,7 +40,7 @@ const QuestionCard = observer((props: any) => {
 
     return (
         <>
-            <Card key={data.id + 1} className={classes.root}>
+            <Card key={data.id + 1} className={classes.root} style={{backgroundColor:props.isSubmitted?"lightgreen":""}}>
                 <CardContent>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
 

@@ -14,6 +14,8 @@ import resultTypeDefs from "./schemas/Result.typedefs";
 import resultResolvers from "./resolvers/Result.resolver";
 import compilerTypeDefs from "./schemas/Compiler.typedefs";
 import compilerResolvers from "./resolvers/Compiler.resolvers";
+import candidateExamStatusTypeDefs from "./schemas/CandidateExamStatus.typedefs";
+import candidateExamStatusResolvers from "./resolvers/CandidateExamStatus.resolvers";
 
 
 import mongoose from "mongoose";
@@ -34,6 +36,7 @@ const server = new ApolloServer({
     { typeDefs: participantsTypeDefs, resolvers: participantsResolvers },
     { typeDefs: resultTypeDefs, resolvers: resultResolvers },
     { typeDefs: compilerTypeDefs, resolvers: compilerResolvers},
+    { typeDefs: candidateExamStatusTypeDefs, resolvers: candidateExamStatusResolvers},
 
   ]),permissions),
 

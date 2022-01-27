@@ -6,7 +6,7 @@ import "ace-builds/src-noconflict/theme-xcode";
 import "ace-builds/src-noconflict/theme-dracula";
 import { Button, createStyles, Grid, makeStyles, Theme } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { CODE_EXEC, CODE_SUBMIT } from "../../apis/mutations";
+import { CANDIDATE_EXAM_STATUS, CODE_EXEC, CODE_SUBMIT } from "../../apis/mutations";
 import { useMutation } from "@apollo/client";
 import store from "../../store";
 import { observer } from "mobx-react-lite";
@@ -51,6 +51,7 @@ const CodeEditor = observer(() => {
     const [popupMsg, setPopupMsg] = useState({title:"", description:"", navigateTo:""})
     const [codeExec, { data, loading, error }] = useMutation(CODE_EXEC);
     const [codeSubmit, codeSub] = useMutation(CODE_SUBMIT);
+    const [createCandidateExamStatus, cesObj] = useMutation(CANDIDATE_EXAM_STATUS);
 
     const examId = store.examId
     const question = localStorage.getItem("selectedQuestion")
@@ -152,6 +153,14 @@ const CodeEditor = observer(() => {
                 user_id: user_id,
                 exam_id: examId,
                 question_id: questionId
+            }
+        })
+
+        createCandidateExamStatus({
+            variables:{
+                exam_id:examId,
+                candidate_id: user_id,
+                question_id:questionId
             }
         })
     }

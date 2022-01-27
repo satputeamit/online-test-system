@@ -2,6 +2,7 @@ import { AddSubject } from "../models/Subject.model";
 import { AddQuesAns } from "../models/QuesAns.model";
 import { AddParticipant } from "../models/Participants.model";
 import { AddResult } from "../models/Result.model";
+import { AddCandidateExamStatus } from "../models/CandidateExamStatus.model";
 
 const validateAddSubject = (args: AddSubject) => {
   console.log("Validation called");
@@ -28,10 +29,16 @@ const validateAddResult = (args: AddResult) => {
   return true;
 };
 
+const validateCandidateExamStatus = (args: AddCandidateExamStatus) => {
+  console.log("Validation called");
+  return true;
+};
+
 export {
   validateAddSubject,
   validateAddQuesAns,
   validateAddExam,
   validateAddParticipant,
   validateAddResult,
+  validateCandidateExamStatus,
 };

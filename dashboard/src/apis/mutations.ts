@@ -33,3 +33,15 @@ mutation($code:String!, $language:String!, $user_id:String!, $exam_id: String!, 
 }
 `
 
+export const CANDIDATE_EXAM_STATUS = gql`
+mutation($exam_id: String!, $candidate_id: String!, $question_id: String!){
+  createCandidateExamStatus(input: {exam_id: $exam_id, candidate_id:$candidate_id, question_id: $question_id}) {
+    id
+    exam_id
+    candidate_id
+    question_ids    
+    exam_status
+  }
+}
+`
+

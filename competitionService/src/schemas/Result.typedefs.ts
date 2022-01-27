@@ -6,6 +6,11 @@ type QuestionStatus{
   status: Int
 }
 
+type ExamResult{
+  subject: String
+  result_status: String
+}
+
 type Result{
     id: ID! 
     exam_id:String
@@ -15,9 +20,14 @@ type Result{
   }
 
  
- 
+  input getResultInput{
+    exam_id: String
+    candidate_id: String
+  }
+
   extend type Query {
     getResults: [Result]
+    getResult(input:getResultInput): ExamResult
   }  
 
   input QuestionStatusInput{
