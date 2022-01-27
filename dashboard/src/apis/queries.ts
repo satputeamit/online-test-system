@@ -72,3 +72,13 @@ query($exam_id:String!, $candidate_id: String!){
 }
 `;
 
+export const GET_CANDIDATES_EXAM= gql`
+query( $candidate_id: String!){
+  getExamsByCandidate(input: {candidate_id: $candidate_id}) {
+    exam_id
+    exam_status
+  }
+}
+
+`;
+

@@ -13,8 +13,14 @@ const typeDefs = gql`
     exam_id:String!
     candidate_id:String!
   }
+
+  input GetCandidateExamInput{   
+    candidate_id:String!
+  }
+  
   extend type Query {
     getCandidateExamStatus(input:GetCandidateExamStatusInput): CandidateExamStatus
+    getExamsByCandidate(input:GetCandidateExamInput):[CandidateExamStatus]
   }  
 
   input AddCandidateExamStatusInput{     
@@ -40,6 +46,7 @@ const typeDefs = gql`
   extend type Mutation {    
     createCandidateExamStatus(input :AddCandidateExamStatusInput):CandidateExamStatus
     updateCandidateExamStatus(input:candidateExamStatusInput): String
+
   }
 
 `;

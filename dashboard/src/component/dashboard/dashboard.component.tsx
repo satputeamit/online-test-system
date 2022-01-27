@@ -3,7 +3,7 @@ import ExamList from "../exam/ExamList.component";
 import { GET_USER_PROFILE } from "../../apis/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import store from "../../store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 
 
@@ -12,7 +12,7 @@ const Dashboard = observer(() => {
     const loggedIn = window.localStorage.getItem("accessToken")
     if (!loggedIn) return <Navigate to="/" />;
     const { loading, error, data } = useQuery(GET_USER_PROFILE);
-
+    const [userState, setUserState] = useState<any>("")
     console.log("error", error)
     useEffect(() => {
         if (data) {
@@ -21,6 +21,7 @@ const Dashboard = observer(() => {
             window.localStorage.setItem("username", userInfo.first_name)
             window.localStorage.setItem("user_id", userInfo.user_id)
             store.setUsername(userInfo.first_name)
+            setUserState(userInfo.user_id)
 
 
         }
@@ -32,7 +33,7 @@ const Dashboard = observer(() => {
       
     return (
         <div>
-            <ExamList></ExamList>            
+            <ExamList user_id={userState}></ExamList>            
         </div>)
 }
 );

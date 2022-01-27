@@ -2,7 +2,8 @@ import { Button, Card, CardActions, CardContent, Grid, makeStyles, Typography } 
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import store from "../../store";
-
+import Icon from "@material-ui/icons/CheckCircle";
+import { fontSize } from "@mui/system";
 
 const useStyles = makeStyles({
     root: {
@@ -43,8 +44,10 @@ const ExamCard =observer((props:any)=>{
             <Typography className={classes.title} color="textSecondary" gutterBottom>
               
             </Typography>
-            <Typography variant="h5" component="h2">
+           
+            <Typography variant="h5" component="h2" >
                 {data.subject.name}
+                {props.isSubmitted?<Icon style={{float:"right", color: "green", fontSize:"40px"}} ></Icon>:<></>}
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
                 Test
@@ -58,7 +61,7 @@ const ExamCard =observer((props:any)=>{
 
         </CardContent>
         <CardActions>
-            <Button size="small" onClick={()=>{startExam(data.id)}}>Start</Button>
+            <Button size="small" onClick={()=>{startExam(data.id)}}>{props.isSubmitted?"Details": "Start"}</Button>
         </CardActions>
     </Card>
     </>

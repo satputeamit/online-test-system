@@ -9,6 +9,12 @@ const resolvers = {
             const examStatus = await CandidateExamStatus.findOne({ exam_id: input.exam_id, candidate_id: input.candidate_id });
             return examStatus
         },
+        
+        getExamsByCandidate:async (_: any, args: any) => {
+            const input = args.input;
+            const _cesObj = await CandidateExamStatus.find({candidate_id:input.candidate_id})
+            return _cesObj;
+        }
     },
     Mutation: {
         createCandidateExamStatus: async (_: any, args: any) => {
@@ -55,7 +61,9 @@ const resolvers = {
             }
             return "Not Found"
 
-        }
+        },
+
+       
     },
 
     CandidateExamStatus: {
