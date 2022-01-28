@@ -4,20 +4,19 @@ import { Button, Card, CardActions, CardContent, Grid, makeStyles, Typography } 
 import ExamCard from "./ExamCard.component";
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 
 const ExamList = observer((props:any) => {
     const user_id = props.user_id
     console.log("user::::", user_id)
     const { loading, error, data } = useQuery(GET_EXAMS);
+    const navigate = useNavigate();
     const [submittedExams, setSubmittedExams] = useState<any>([])
     const candidateExams = useQuery(GET_CANDIDATES_EXAM,{
         variables:{candidate_id:user_id }
     })
-
-    useEffect(()=>{
-        candidateExams.refetch();
-    },[])
 
     useEffect(()=>{
         let submittedExamsArray:any =[]
@@ -31,9 +30,29 @@ const ExamList = observer((props:any) => {
                 }
             }
             console.log("submittedExamsArray",submittedExamsArray)
-            setSubmittedExams(submittedExamsArray)
+            if(exdata.length>0){
+                setSubmittedExams(submittedExamsArray)
+            }
+            else{
+                //need to be checked
+                candidateExams.refetch();
+            }
+           
         }
-    },[candidateExams.data])
+        if(candidateExams.error){         
+                if(candidateExams.error.networkError?.message.split("<")[0].trim()=="Unexpected token"){
+                    localStorage.removeItem("accessToken");
+                    navigate("/")
+                }           
+            console.log("ERRR:",candidateExams.error)
+        }
+    },[candidateExams.data, candidateExams.error])
+
+    useEffect(()=>{
+        console.log("refecth called")
+        candidateExams.refetch();
+    },[])
+
     // if (loading) return "Loading...";
     // if (error) return <div>{JSON.stringify(error)}</div>;
 

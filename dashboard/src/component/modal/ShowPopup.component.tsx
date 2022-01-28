@@ -56,7 +56,7 @@ const ShowPopup=(props:any)=> {
       <p id="simple-modal-description">
         {props.description}
       </p>
-      {props.navigateTo?<Button variant="contained" size="small" color="primary" onClick={()=>{handleNavigate(props.navigateTo)}}>Go back</Button>:<></>}
+      {props.navigateTo?<Button variant="contained" size="small" color="primary" onClick={()=>{handleNavigate(props.navigateTo)}}>{props.buttonName}</Button>:<></>}
     </div>
   );
 

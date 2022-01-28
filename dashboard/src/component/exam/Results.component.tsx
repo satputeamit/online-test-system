@@ -5,13 +5,14 @@ import { useEffect, useState } from "react"
 import { GET_RESULT } from "../../apis/queries"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import store from "../../store"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const Results = observer(() => {
     const examId = store.examId
     const user_id = localStorage.getItem("user_id")
     console.log("??", examId, user_id)
     const [result, setResult] = useState({ subject: "", result_status: "" })
+    const navigate = useNavigate();
     // const [getResult, { loading, error, data }] = useLazyQuery(GET_RESULT)
     const { loading, error, data ,refetch} = useQuery(GET_RESULT,{
         variables: { exam_id: examId, candidate_id: user_id },
@@ -33,10 +34,17 @@ const Results = observer(() => {
         }
 
         if (error) {
+            if(error.networkError?.message.split("<")[0].trim()=="Unexpected token"){
+                localStorage.removeItem("accessToken");
+                navigate("/")
+            }   
             console.log("rErr:", error)
         }
     }, [data, error])
 
+    const handleNavigate =()=>{
+        navigate("/dashboard")
+    }
     return (
         <div style={{ padding: "50px" }} >
             {loading?<CircularProgress size={200}/>:<Grid container justifyContent="center" direction="column" spacing={2}>               
@@ -48,7 +56,7 @@ const Results = observer(() => {
                 </Grid>   
                       
                 <Grid item>
-                <span style={{ color: "white" }}>Go to the <Link to="/dashboard" style={{ color: "skyblue" }}>Dashboard</Link>.</span>    
+                <span style={{ color: "white" }}>Go to the <Button variant="contained" color="primary" onClick={handleNavigate} >Dashboard</Button></span>    
                 </Grid>         
             </Grid>}
         </div>

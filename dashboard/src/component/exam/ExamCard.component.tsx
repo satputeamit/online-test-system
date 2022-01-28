@@ -61,7 +61,7 @@ const ExamCard =observer((props:any)=>{
 
         </CardContent>
         <CardActions>
-            <Button size="small" onClick={()=>{startExam(data.id)}}>{props.isSubmitted?"Details": "Start"}</Button>
+            <Button size="small" variant="outlined" color="primary" onClick={()=>{startExam(data.id)}}>{props.isSubmitted?"Details": "Start"}</Button>
         </CardActions>
     </Card>
     </>

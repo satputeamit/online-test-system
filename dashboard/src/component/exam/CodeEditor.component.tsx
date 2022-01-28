@@ -15,6 +15,7 @@ import Icon from '@material-ui/core/Icon';
 import SaveIcon from '@material-ui/icons/Save';
 import PlayIcon from "@material-ui/icons/PlayArrow";
 import BackIcon from "@material-ui/icons/ArrowBack";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,26 +39,28 @@ def my_function(data):
 
 `}`
 
-const CodeEditor = observer(() => {
-
-
-    const classes = useStyles();
-    const navigate = useNavigate()
-    const [code, setCode] = useState({ code: template, language: "" })
-    const [stdout, setStdout] = useState(String)
-    const [stderr, setStderr] = useState(String)
-    const [msgModal, setMsgModal] = useState(false)
-    const [submitStatus, setSubmitStatus] = useState(false)
-    const [popupMsg, setPopupMsg] = useState({title:"", description:"", navigateTo:""})
-    const [codeExec, { data, loading, error }] = useMutation(CODE_EXEC);
-    const [codeSubmit, codeSub] = useMutation(CODE_SUBMIT);
-    const [createCandidateExamStatus, cesObj] = useMutation(CANDIDATE_EXAM_STATUS);
+const CodeEditor = observer((props:any) => {
 
     const examId = store.examId
     const question = localStorage.getItem("selectedQuestion")
     const description = localStorage.getItem("currentDescruption")
     const questionId = localStorage.getItem("questionId")
     const user_id = localStorage.getItem("user_id")
+
+
+    const classes = useStyles();
+    const navigate = useNavigate()
+    // const [code, setCode] = useState({ code: template, language: "" })
+    const [code, setCode] = useLocalStorage(questionId,{ code: template, language: "" })
+
+    const [stdout, setStdout] = useState(String)
+    const [stderr, setStderr] = useState(String)
+    const [msgModal, setMsgModal] = useState(false)
+    const [submitStatus, setSubmitStatus] = useState(false)
+    const [popupMsg, setPopupMsg] = useState({title:"", description:"", navigateTo:"", buttonName:""})
+    const [codeExec, { data, loading, error }] = useMutation(CODE_EXEC);
+    const [codeSubmit, codeSub] = useMutation(CODE_SUBMIT);
+    const [createCandidateExamStatus, cesObj] = useMutation(CANDIDATE_EXAM_STATUS);
 
     useEffect(() => {
         if (data) {
@@ -82,7 +85,8 @@ const CodeEditor = observer(() => {
                 setPopupMsg({
                     title:"Not Authorized!",
                     description:"",
-                    navigateTo:"/dashboard"
+                    navigateTo:"/dashboard",
+                    buttonName:"Go back"
                 })
                 setMsgModal(true)
                 
@@ -110,7 +114,8 @@ const CodeEditor = observer(() => {
                 setPopupMsg({
                     title:"Not Authorized!",
                     description:"",
-                    navigateTo:"/dashboard"
+                    navigateTo:"/dashboard",
+                    buttonName:"Go back"
                 })
                 setMsgModal(true)
                 
@@ -169,7 +174,7 @@ const CodeEditor = observer(() => {
         <div>
 
             {msgModal 
-            ?<ShowPopup title={popupMsg.title} description={popupMsg.description} navigateTo={popupMsg.navigateTo}/>
+            ?<ShowPopup title={popupMsg.title} description={popupMsg.description} navigateTo={popupMsg.navigateTo} buttonName={popupMsg.buttonName}/>
             :<Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
                 <Grid item xs={5} style={{ textAlign: "left" }}>
 
@@ -237,7 +242,7 @@ const CodeEditor = observer(() => {
                 </Grid>
 
             </Grid>}
-            {submitStatus?<ShowPopup title="Code submitted successfully..." description="Please click 'GO BACK' button."/>:<></>}
+            {submitStatus?<ShowPopup title="Code submitted successfully..." description="Please click 'GO BACK' button. or Click on OK." navigateTo={"/exam"} buttonName={"OK"}/>:<></>}
 
         </div>)
 }

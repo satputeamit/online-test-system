@@ -35,7 +35,7 @@ const QuestionCard = observer((props: any) => {
         localStorage.setItem("questionId", examId)
         localStorage.setItem("selectedQuestion", question)
         localStorage.setItem("currentDescruption", description)
-        navigate("/code-editor")
+        navigate("/code-editor")        
     }
 
     return (
