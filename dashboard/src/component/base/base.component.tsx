@@ -7,23 +7,24 @@ import { observer } from "mobx-react-lite";
 import Exam from "../exam/Exam.component";
 import CodeEditor from "../exam/CodeEditor.component";
 import Results from "../exam/Results.component";
+import AddQuestions from "../organizer/AddQuestions.components";
 
 
 const Base = () => {
-    const loggedIn = window.localStorage.getItem("accessToken") 
+    const loggedIn = window.localStorage.getItem("accessToken")
     return (
         <div>
             <NavBar></NavBar>
             <Routes>
                 <Route path="/" element={window.localStorage.getItem("accessToken") ? <Navigate to="/dashboard" /> : <HomeComponent />}></Route>
-                
+
                 <Route path="/signup" element={<SignUp />}></Route>
                 <Route path="/dashboard" element={<Dashboard />}></Route>
                 <Route path="/exam" element={<Exam />}></Route>
                 <Route path="/code-editor" element={<CodeEditor />}></Route>
                 <Route path="/exam-result" element={<Results />}></Route>
-                
-               
+                <Route path="/add-questions" element={<AddQuestions />}></Route>
+
             </Routes>
 
         </div>

@@ -32,8 +32,13 @@ const typeDefs = gql`
     role: Roles  
   }
  
+  type loginType{
+    accessToken: String
+    email: String
+    role: String
+  }
   extend type Mutation {
-    login(input: LoginCreds):String
+    login(input: LoginCreds):loginType
     createUser(input :createUserInput):User
   }
 

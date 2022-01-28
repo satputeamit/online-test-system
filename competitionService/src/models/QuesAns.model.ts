@@ -26,7 +26,7 @@ const QuesAnsSchema = new mongoose.Schema(
     question: { type: String, required: true  },
     answer: { type: String},
     inputs: { type: [String], required: true },
-    outputs: { type: [String], required: true },
+    outputs: { type: [String], required: true,default:"test" },
     organizerid: { type: String, required: true},
   },
   {

@@ -26,11 +26,17 @@ const resolvers = {
         };
         const jwtScret = process.env.JWTSCRET || "";
         const expIn = process.env.EXP_IN || "10m";
-        return jwt.sign(payload, jwtScret, {
+        const token = jwt.sign(payload, jwtScret, {
           algorithm: "HS256",
           subject: user?.id,
           expiresIn: expIn,
         });
+
+        return {
+          accessToken:token,
+          email:user?.email,
+          role:user?.role
+        }
       }
 
       throw new Error("Invalid credentials");

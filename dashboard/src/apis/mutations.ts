@@ -2,7 +2,11 @@ import { gql } from "@apollo/client";
 
 export const LOGIN = gql`
   mutation ($email: String!, $password: String!){
-    login(input: {email: $email, password: $password})
+    login(input: {email: $email, password: $password}){
+      accessToken
+      email
+      role
+    }
   }
 `;
 
@@ -48,6 +52,17 @@ mutation($exam_id: String!, $candidate_id: String!, $question_id: String!){
 export const UPDATE_EXAM_STATUS = gql`
 mutation($exam_id: String!, $candidate_id: String!, $exam_status: ExamStatus! ){
   updateCandidateExamStatus(input: {exam_id: $exam_id, candidate_id:$candidate_id, exam_status: $exam_status})
+}
+`
+
+
+export const CREATE_QUAS_ANS = gql`
+mutation($input: createQuesAns){
+  createQuesAns(input: $input){
+    id
+    question
+    subjectid
+  }
 }
 `
 

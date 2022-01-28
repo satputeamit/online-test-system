@@ -82,14 +82,16 @@ const HomeComponent = observer(() => {
     
     useEffect(() => {
         if (error) {
-            window.localStorage.removeItem("accessToken")
-            window.localStorage.removeItem("emailId")
+            localStorage.removeItem("accessToken")
+            localStorage.removeItem("emailId")
             setErr(true)
             store.setLoggedIn(false)
         }
         if (data) {
             // var _data = JSON.parse((data.login))
-            window.localStorage.setItem("accessToken", data.login);
+            localStorage.setItem("accessToken", data.login.accessToken);
+            localStorage.setItem("user-role", data.login.role);
+
             console.log("login token :", data.login)
             // window.localStorage.setItem("emailId", _data.email);
             setErr(false)
@@ -151,7 +153,7 @@ const HomeComponent = observer(() => {
                                 style={{ marginLeft: "-125px" }}
                                 onClick={() => {
                                     login({ variables: { email: creds.email, password: creds.password } })
-                                    .then((d:any)=>window.localStorage.setItem("accessToken", d.login))
+                                    // .then((d:any)=>window.localStorage.setItem("accessToken", d.login))
                                     
                                 }}
                             >

@@ -82,3 +82,12 @@ query( $candidate_id: String!){
 
 `;
 
+export const GET_SUBJECTS = gql`
+query{
+  getSubjects {
+    id
+    name
+  }
+}
+`;
+
