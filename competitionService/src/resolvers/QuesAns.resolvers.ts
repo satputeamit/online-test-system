@@ -19,6 +19,13 @@ const resolvers = {
       
       return [];
 
+    },
+    getQuestionsBySubject: async(_: any, args: any)=>{
+      const input = args.input;
+      console.log("sub id:",input.subjectid)
+      const qas = await QuesAns.find({subjectid:input.subjectid}).sort({createdAt:-1});     
+      return qas;
+
     }
   },
   Mutation: {

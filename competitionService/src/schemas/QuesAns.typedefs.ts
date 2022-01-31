@@ -16,9 +16,13 @@ type QuesAns{
     examId:String
   }
 
+  input QuestionsBySubInput{
+    subjectid:String!
+  }
   extend type Query {
     getQAData: [QuesAns]
     getExamsQA(input:examQAInput):[QuesAns]
+    getQuestionsBySubject(input:QuestionsBySubInput):[QuesAns]
   }  
 
   input createQuesAns{     

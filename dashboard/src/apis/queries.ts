@@ -91,3 +91,14 @@ query{
 }
 `;
 
+
+export const GET_QUESTIONS = gql`
+query($input: QuestionsBySubInput){
+  getQuestionsBySubject(input: $input) {
+    id
+    question
+  }
+}
+`;
+
+
