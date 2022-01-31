@@ -1,7 +1,8 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { Button, Card, CardActions, CardContent, Checkbox, createStyles, FormControl, FormControlLabel, Grid, makeStyles, MenuItem, Select, TextField, Theme } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CREATE_EXAM } from "../../apis/mutations";
 import { GET_QUESTIONS, GET_SUBJECTS } from "../../apis/queries";
 
 
@@ -26,12 +27,15 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const SetExam = () => {
+    const user_id = localStorage.getItem("user_id")
     const classes = useStyles();
     const navigate = useNavigate();
     const [subId, setSubId] = useState('');
     const [subjects, setSubjects] = useState<any>([]);
     const [questionArray, setQuestionArray] = useState<any>([]);
-    const [selectedQues,setSelectedQues] = useState<any>([]);
+    const [selectedQues, setSelectedQues] = useState<any>([]);
+    const [examParams, setExamParams] = useState<any>({});
+    const [errorMsg, setErrorMsg] = useState("")
     const { loading, error, data, refetch } = useQuery(GET_SUBJECTS);
     const getQuestions = useQuery(GET_QUESTIONS,
         {
@@ -41,6 +45,8 @@ const SetExam = () => {
                 }
             }
         })
+
+    const [createExam, examObj] = useMutation(CREATE_EXAM)
 
     useEffect(() => {
         refetch();
@@ -61,31 +67,69 @@ const SetExam = () => {
 
         if (getQuestions.data) {
             console.log("GQDATA:::", getQuestions.data)
-            setQuestionArray(getQuestions.data.getQuestionsBySubject)       
-           
+            setQuestionArray(getQuestions.data.getQuestionsBySubject)
+
         }
 
         if (getQuestions.error) {
             console.log("GQError:", getQuestions.error)
         }
-    }, [data, error, getQuestions.data, getQuestions.error])
+
+        if (examObj.data) {
+            console.log("EXDATA:::", examObj.data)
+
+        }
+
+        if (examObj.error) {
+            console.log("EXError:", examObj.error)
+        }
+    }, [data, error, getQuestions.data, getQuestions.error, examObj.data, examObj.error])
 
     const handleChangeSub = (event: any) => {
         setSubId(event.target.value as string);
     };
 
-    const handleChange = (event:any) => {        
-        if(event.target.checked){
-            setSelectedQues((ques:any)=>[...ques,event.target.name])
+    const handleChange = (event: any) => {
+        if (event.target.checked) {
+            setSelectedQues((ques: any) => [...ques, event.target.name])
         }
-        else{
-            let queArry = selectedQues;         
-            queArry = queArry.filter((item:any) => item !== event.target.name)
+        else {
+            let queArry = selectedQues;
+            queArry = queArry.filter((item: any) => item !== event.target.name)
             setSelectedQues(queArry)
         }
-        
-      };
-   
+
+    };
+
+    const examCreate = () => {
+
+        if ((examParams.totalQuestions === selectedQues.length) && (examParams.needToBeCorrect <= selectedQues.length)) {
+            console.log("inside????????????????")
+            createExam({
+                variables: {
+                    "input": {
+                        "subjectid": subId,
+                        "duration_in_minutes": examParams.duration,
+                        "organizerid": user_id,
+                        "need_to_be_correct": examParams.needToBeCorrect,
+                        "ques_ans_ids": selectedQues,
+                        "total_question": examParams.totalQuestions,
+                        "valid_till_hrs": examParams.validTill
+
+                    }
+                }
+            })
+            setErrorMsg("")
+        }
+        else {
+            console.log("else",(examParams.totalQuestions === selectedQues.length),typeof examParams.totalQuestions,typeof selectedQues.length)
+            setErrorMsg("Please check 'total question' and 'selected questions' count and 'need to be correct' <= 'total question' ")
+        }
+
+    }
+
+  
+
     return (
         <div>
             <Grid container direction="row" spacing={4}>
@@ -139,11 +183,16 @@ const SetExam = () => {
                                 <Grid item xs={7}>
                                     <TextField
                                         id="standard-number"
-                                        label="Number"
+                                        label="total_questions"
                                         type="number"
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        onChange={(e) => {
+
+                                            setExamParams((data: any) => ({ ...data, totalQuestions: parseInt(e.target.value) }))
+                                        }
+                                        }
                                     />
                                 </Grid>
 
@@ -159,11 +208,16 @@ const SetExam = () => {
                                 <Grid item xs={7}>
                                     <TextField
                                         id="standard-number"
-                                        label="Number"
+                                        label="need_to_be_correct"
                                         type="number"
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        onChange={(e) => {
+
+                                            setExamParams((data: any) => ({ ...data, needToBeCorrect: parseInt(e.target.value) }))
+                                        }
+                                        }
                                     />
                                 </Grid>
 
@@ -179,11 +233,16 @@ const SetExam = () => {
                                 <Grid item xs={7}>
                                     <TextField
                                         id="standard-number"
-                                        label="Number"
+                                        label="duration"
                                         type="number"
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        onChange={(e) => {
+
+                                            setExamParams((data: any) => ({ ...data, duration: parseInt(e.target.value) }))
+                                        }
+                                        }
                                     />
                                 </Grid>
 
@@ -199,11 +258,16 @@ const SetExam = () => {
                                 <Grid item xs={7}>
                                     <TextField
                                         id="standard-number"
-                                        label="Number"
+                                        label="valid_till"
                                         type="number"
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        onChange={(e) => {
+
+                                            setExamParams((data: any) => ({ ...data, validTill: parseInt(e.target.value) }))
+                                        }
+                                        }
                                     />
                                 </Grid>
 
@@ -217,19 +281,28 @@ const SetExam = () => {
                                 </Grid>
                                 <Grid item xs={1} className={classes.txtAlignM}><h4>:</h4></Grid>
                                 <Grid item xs={7}>
-                                    <TextField id="standard-search" label="Search field" type="search" value={3} disabled />
+                                    <TextField
+                                        id="standard-search"
+                                        label="Search field"
+                                        type="search"
+                                        value={selectedQues.length}
+                                        disabled />
                                 </Grid>
 
                             </Grid>
 
                         </CardContent>
                         <CardActions >
-                            <Grid container justifyContent="center" >
-                                <Grid item>
-                                    <Button variant="contained" color="primary" >Create Exam</Button>
+                            <Grid container direction="column" spacing={3}>
+                                <Grid item style={{textAlign:"center"}}>
+                                    <Button variant="contained" color="primary" onClick={examCreate}>Create Exam</Button>
                                 </Grid>
-
+                                
+                                <Grid item style={{textAlign:"center"}}>
+                                {errorMsg ? <span style={{ color: "red" }}>{errorMsg}</span> : <></>}
+                                </Grid>
                             </Grid>
+                            
 
                         </CardActions>
                         <br></br>
@@ -258,7 +331,7 @@ const SetExam = () => {
                                             <FormControlLabel
                                                 control={
                                                     <Checkbox
-                                                        
+
                                                         onChange={handleChange}
                                                         name={qd.id}
                                                         color="primary"

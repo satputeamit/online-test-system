@@ -66,4 +66,14 @@ mutation($input: createQuesAns){
 }
 `
 
+export const CREATE_EXAM = gql`
+mutation($input: createExamInput){
+  createExam(input: $input) {
+    id
+    
+  }
+}
+`
+
+
 
