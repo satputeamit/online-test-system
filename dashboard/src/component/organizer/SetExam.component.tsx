@@ -283,7 +283,7 @@ const SetExam = () => {
                                 <Grid item xs={7}>
                                     <TextField
                                         id="standard-search"
-                                        label="Search field"
+                                        label="Total selected questions"
                                         type="search"
                                         value={selectedQues.length}
                                         disabled />
