@@ -15,7 +15,8 @@ import { permissions } from "./helper/permissions";
 
 
 async function connectDb() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/authservice");
+  // await mongoose.connect("mongodb://127.0.0.1:27017/authservice");
+  await mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/authservice`);
 }
 
 const server = new ApolloServer({

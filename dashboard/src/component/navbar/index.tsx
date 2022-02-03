@@ -34,11 +34,11 @@ const NavBar = observer(() => {
     var username: any = "";
     const logOut = () => {
         localStorage.clear();
-        caches.keys().then((names) => {
-            names.forEach((name) => {
-                caches.delete(name);
-            });
-        });
+        // caches.keys().then((names) => {
+        //     names.forEach((name) => {
+        //         caches.delete(name);
+        //     });
+        // });
         store.setLoggedIn(false);
         store.setUsername("");
         navigate("/");

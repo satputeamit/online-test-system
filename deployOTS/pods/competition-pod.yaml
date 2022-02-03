@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: competition-app-pod
+  labels:
+    name: competition-app-pod
+    app: ots-app
+spec:
+  containers:
+    - name: competition-app
+      image: amitgs/competition-service-app
+      ports:
+        - containerPort: 4002
+      env:
+        - name: DB_HOST
+          value: "192.168.59.100"
+        - name: DB_PORT
+          value: "30010"
+        

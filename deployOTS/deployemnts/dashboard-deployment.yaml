@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard-app-deployment
+  labels:
+    name: dashboard-app-deployment
+    app: ots-app
+    
+spec:
+  selector:
+    matchLabels:
+      name: dashboard-app-pod
+      app: ots-app
+  replicas: 1
+  template:
+    metadata:
+      name: dashboard-app-pod
+      labels:
+        name: dashboard-app-pod
+        app: ots-app
+    spec:
+      containers:
+        - name: dashboard-app
+          image: amitgs/dashboard-app
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_GATEWAY_API
+              value: "http://192.168.59.100:30004/graphql"
+
+      

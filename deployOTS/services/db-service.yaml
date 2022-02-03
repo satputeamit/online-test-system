@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+  labels:
+    name: db-service
+    app: ots-app
+spec: 
+  type: NodePort
+  ports:
+    - port: 27017
+      targetPort: 27017    
+      nodePort: 30010 
+  selector:
+    name: db-pod
+    app: ots-app
+        

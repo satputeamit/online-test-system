@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { ApolloClient, InMemoryCache ,ApolloProvider, createHttpLink} from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
 
+console.log("Gateway api:",process.env.REACT_APP_GATEWAY_API)
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: process.env.REACT_APP_GATEWAY_API || 'http://localhost:4000/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {

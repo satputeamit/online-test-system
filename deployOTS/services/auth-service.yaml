@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  labels:
+    name: auth-service
+    app: ots-app
+spec:
+  type: NodePort
+  ports:
+    - port: 4001
+      targetPort: 4001
+      nodePort: 30005
+  selector:
+    name: auth-app-pod
+    app: ots-app
+        

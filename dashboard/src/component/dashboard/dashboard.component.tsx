@@ -1,11 +1,10 @@
 import { Navigate } from "react-router-dom";
 import ExamList from "../exam/ExamList.component";
 import { GET_USER_PROFILE } from "../../apis/queries";
-import { useMutation, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import store from "../../store";
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import AddQuestions from "../organizer/AddQuestions.components";
 import OrgDashboard from "../organizer/OrgDashboard.component";
 
 

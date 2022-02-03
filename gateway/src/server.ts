@@ -9,7 +9,9 @@ dotenv.config();
 const port = 4000;
 const app = express();
 
-app.use(cors())
+app.use(cors({
+  origin:"*"
+}))
 
 app.use(
   expressJwt({
@@ -25,8 +27,8 @@ app.get("/", function (req, res) {
 
 const gateway = new ApolloGateway({
   serviceList: [
-    { name: "authService", url: "http://localhost:4001/graphql" },
-    { name: "competitonService", url: "http://localhost:4002/graphql" },
+    { name: "authService", url: process.env.AUTH_SERVICE },
+    { name: "competitonService", url: process.env.COMPETITION_SERVICE },
   ],
   buildService({ name, url }) {
     return new RemoteGraphQLDataSource({

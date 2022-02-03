@@ -1,9 +1,8 @@
 import NavBar from "../navbar";
 import HomeComponent from "../home/Home.component";
-import { BrowserRouter as Router, Route, Routes, Link, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import SignUp from "../signup/Signup.component";
 import Dashboard from "../dashboard/dashboard.component";
-import { observer } from "mobx-react-lite";
 import Exam from "../exam/Exam.component";
 import CodeEditor from "../exam/CodeEditor.component";
 import Results from "../exam/Results.component";
@@ -11,8 +10,7 @@ import AddQuestions from "../organizer/AddQuestions.components";
 import SetExam from "../organizer/SetExam.component";
 
 
-const Base = () => {
-    const loggedIn = window.localStorage.getItem("accessToken")
+const Base = () => {    
     return (
         <div>
             <NavBar></NavBar>

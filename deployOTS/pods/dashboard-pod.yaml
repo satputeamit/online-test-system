@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dashboard-app-pod
+  labels:
+    name: dashboard-app-pod
+    app: ots-app
+spec:
+  containers:
+    - name: dashboard-app
+      image: amitgs/dashboard-app
+      ports:
+        - containerPort: 3000
+      env:
+        - name: REACT_APP_GATEWAY_API
+          value: "http://192.168.59.100:30004/graphql"
+       
+        

@@ -25,7 +25,7 @@ import { GraphQLResolverMap } from "apollo-graphql";
 
 
 async function connectDb() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/competitionService");
+  await mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/competitionService`);
 }
 
 const server = new ApolloServer({

@@ -1,7 +1,6 @@
-import React from 'react';
 import './App.css';
 import Base from './component/base/base.component';
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { observer } from 'mobx-react-lite';
 
 const App=observer(()=> {

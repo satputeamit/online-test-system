@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db-pod
+  labels:
+    name: db-pod
+    app: ots-app
+spec:
+  containers:
+    - name: mongo
+      image: amitgs/mongo
+      command:
+        - "mongod"
+        - "--bind_ip_all"     
+      ports:
+        - containerPort: 27017
+     
+        

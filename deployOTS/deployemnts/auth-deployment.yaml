@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-app-deployment
+  labels:
+    name: auth-app-deployment
+    app: ots-app
+    
+spec:
+  selector:
+    matchLabels:
+      name: auth-app-pod
+      app: ots-app
+  replicas: 1
+  template:
+    metadata:
+      name: auth-app-pod
+      labels:
+        name: auth-app-pod
+        app: ots-app
+    spec:
+      containers:
+        - name: auth-app
+          image: amitgs/auth-service-app
+          ports:
+            - containerPort: 4001
+          env:
+            - name: DB_HOST
+              value: "192.168.59.100"
+            - name: DB_PORT
+              value: "30010"

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-app-deployment
+  labels:
+    name: gateway-app-deployment
+    app: ots-app
+    
+spec:
+  selector:
+    matchLabels:
+      name: gateway-app-pod
+      app: ots-app
+  replicas: 1
+  template:
+    metadata:
+      name: gateway-app-pod
+      labels:
+        name: gateway-app-pod
+        app: ots-app
+    spec:
+      containers:
+        - name: gateway-app
+          image: amitgs/gateway-service
+          ports:
+            - containerPort: 4000   
+          env:
+            - name: AUTH_SERVICE
+              value: "http://192.168.59.100:30005"
+            - name: COMPETITION_SERVICE
+              value: "http://192.168.59.100:30006"
+
+      

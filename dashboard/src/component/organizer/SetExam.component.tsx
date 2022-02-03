@@ -288,7 +288,6 @@ const SetExam = () => {
                                         value={selectedQues.length}
                                         disabled />
                                 </Grid>
-
                             </Grid>
 
                         </CardContent>
