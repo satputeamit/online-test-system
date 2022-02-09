@@ -11,10 +11,12 @@ type Exam @key(fields: "id"){
     need_to_be_correct:Int!
     valid_till_hrs:Int!
     ques_ans_ids:[String]! 
+    isExpired:Boolean    
   }
  
   extend type Query {
     getExams: [Exam]
+    getExpiredExams:[Exam]
   }  
 
   input createExamInput{     

@@ -8,6 +8,7 @@ import CodeEditor from "../exam/CodeEditor.component";
 import Results from "../exam/Results.component";
 import AddQuestions from "../organizer/AddQuestions.components";
 import SetExam from "../organizer/SetExam.component";
+import ResultStatus from "../organizer/ResultsStatus.components";
 
 
 const Base = () => {    
@@ -24,6 +25,7 @@ const Base = () => {
                 <Route path="/exam-result" element={<Results />}></Route>
                 <Route path="/add-questions" element={<AddQuestions />}></Route>
                 <Route path="/set-exam" element={<SetExam />}></Route>
+                <Route path="/view-result" element={<ResultStatus />}></Route>
             </Routes>
 
         </div>

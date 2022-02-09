@@ -11,7 +11,7 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 const ExamList = observer((props:any) => {
     const user_id = props.user_id
     console.log("user::::", user_id)
-    const { loading, error, data } = useQuery(GET_EXAMS);
+    const { loading, error, data,refetch } = useQuery(GET_EXAMS);
     const navigate = useNavigate();
     const [submittedExams, setSubmittedExams] = useState<any>([])
     const candidateExams = useQuery(GET_CANDIDATES_EXAM,{
@@ -51,6 +51,7 @@ const ExamList = observer((props:any) => {
     useEffect(()=>{
         console.log("refecth called")
         candidateExams.refetch();
+        refetch();
     },[])
 
     // if (loading) return "Loading...";
@@ -65,7 +66,7 @@ const ExamList = observer((props:any) => {
                     <Grid container justifyContent="center" spacing={2} >
                         {data && data.getExams.map((exam: any) => (
                             <Grid key={exam.id} item>
-                               <ExamCard data={exam} isSubmitted={submittedExams.includes(exam.id)}></ExamCard>
+                               <ExamCard data={exam} isSubmitted={submittedExams.includes(exam.id)} isExpired={exam.isExpired}></ExamCard>
                             </Grid>
                         ))}
                     </Grid>

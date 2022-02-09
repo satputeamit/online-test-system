@@ -24,6 +24,7 @@ query{
     subject{
       name
     }
+    isExpired
 
   }
 }
@@ -102,3 +103,13 @@ query($input: QuestionsBySubInput){
 `;
 
 
+export const GET_RESULT_ORG = gql`
+query($input: getResultByOrdIdInput){
+  getResultByOrgId(input: $input) {
+    candidate_id
+    status
+    subject
+    exam_id
+  }
+}
+`;

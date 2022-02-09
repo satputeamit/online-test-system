@@ -11,6 +11,9 @@ const OrgDashboard = () => {
                 <Grid item>
                     <MenuCard title="Set Exam" description="Set new exams" navigateTo="/set-exam" />
                 </Grid>
+                <Grid item>
+                    <MenuCard title="View Results" description="Results" navigateTo="/view-result" />
+                </Grid>
             </Grid>
         </div>
     )

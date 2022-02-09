@@ -11,6 +11,13 @@ type ExamResult{
   result_status: String
 }
 
+type ExamResultByOrg{
+  exam_id:String
+  subject: String
+  status: String
+  candidate_id:String  
+}
+
 type Result{
     id: ID! 
     exam_id:String
@@ -25,9 +32,14 @@ type Result{
     candidate_id: String
   }
 
+  input getResultByOrdIdInput{    
+    organizer_id: String
+  }
+
   extend type Query {
     getResults: [Result]
     getResult(input:getResultInput): ExamResult
+    getResultByOrgId(input:getResultByOrdIdInput):[ExamResultByOrg]
   }  
 
   input QuestionStatusInput{

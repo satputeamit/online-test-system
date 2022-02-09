@@ -8,6 +8,7 @@ export interface ExamInterface extends mongoose.Document {
   need_to_be_correct:number;
   valid_till_hrs:number;
   ques_ans_ids:string[];
+  isExpired:boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -20,6 +21,7 @@ export interface AddExam {
     need_to_be_correct:number;
     valid_till_hrs:number;
     ques_ans_ids:string[]; 
+    isExpired:boolean;
   }
 
 const ExamSchema = new mongoose.Schema(
@@ -31,6 +33,7 @@ const ExamSchema = new mongoose.Schema(
     need_to_be_correct: { type: Number, required: true},
     valid_till_hrs: { type: Number, required: true},
     ques_ans_ids: { type: [String], required: true},
+    isExpired:{type:Boolean, default:false}
 
   },
   {

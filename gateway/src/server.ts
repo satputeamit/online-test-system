@@ -27,8 +27,8 @@ app.get("/", function (req, res) {
 
 const gateway = new ApolloGateway({
   serviceList: [
-    { name: "authService", url: process.env.AUTH_SERVICE },
-    { name: "competitonService", url: process.env.COMPETITION_SERVICE },
+    { name: "authService", url: process.env.AUTH_SERVICE||"http://localhost:4001/graphql" },
+    { name: "competitonService", url: process.env.COMPETITION_SERVICE||"http://localhost:4002/graphql"},
   ],
   buildService({ name, url }) {
     return new RemoteGraphQLDataSource({
