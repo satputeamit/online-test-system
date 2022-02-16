@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ots-configmap
+  labels:
+    name: ots-configmap
+    app: ots-app
+data:
+  auth_service_url: auth-service
+  auth_service_port: "4001"
+  competition_service_url: competition-service
+  competition_service_port: "4002"
+  gateway_service_url: gateway-service
+  gateway_service_port: "4000"

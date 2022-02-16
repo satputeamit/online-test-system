@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from "apollo-server";
 import { buildSubgraphSchema } from "@apollo/federation";
-import {applyMiddleware} from "graphql-middleware";
+import { applyMiddleware } from "graphql-middleware";
 
 import userTypeDefs from "./schemas/User.typedefs";
 import userResolvers from "./resolvers/User.resolvers";
@@ -15,23 +15,33 @@ import { permissions } from "./helper/permissions";
 
 
 async function connectDb() {
-  // await mongoose.connect("mongodb://127.0.0.1:27017/authservice");
-  await mongoose.connect(`mongodb://${process.env.DB_HOST||"127.0.0.1"}:${process.env.DB_PORT||"27017"}/authservice`);
+  console.log("db url :", process.env.DB_URL)
+  console.log("db user :", process.env.DB_USERNAME)
+  console.log("db pass :", process.env.DB_PASSWORD)
+
+  if (process.env.DB_USERNAME && process.env.DB_PASSWORD) {
+    console.log("connection str:",`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}:27017/authservice?authSource=admin`)
+    await mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}/authservice?authSource=admin`);
+  }
+  else {
+    await mongoose.connect("mongodb://127.0.0.1:27017/authservice");
+  }
+  // await mongoose.connect(`mongodb://${process.env.DB_HOST||"127.0.0.1"}:${process.env.DB_HOST||"127.0.0.1"}@${process.env.DB_HOST||"127.0.0.1"}:${process.env.DB_PORT||"27017"}/authservice`);
 }
 
 const server = new ApolloServer({
-  schema:applyMiddleware(
+  schema: applyMiddleware(
     buildSubgraphSchema([
-    { typeDefs: userTypeDefs, resolvers: userResolvers },
-    { typeDefs: profileTypeDefs, resolvers: profileResolvers },
-    { typeDefs: roleTypeDefs, resolvers: roleResolvers },
-  ]),
-  permissions
+      { typeDefs: userTypeDefs, resolvers: userResolvers },
+      { typeDefs: profileTypeDefs, resolvers: profileResolvers },
+      { typeDefs: roleTypeDefs, resolvers: roleResolvers },
+    ]),
+    permissions
   ),
-  context: async ({ req }) => {   
+  context: async ({ req }) => {
     if (req.headers.user) {
-      const user = JSON.parse(req.headers.user as string);   
-      console.log( user)   
+      const user = JSON.parse(req.headers.user as string);
+      console.log(user)
       return { user };
     }
     return {};

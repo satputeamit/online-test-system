@@ -23,9 +23,20 @@ spec:
         - name: auth-app
           image: amitgs/auth-service-app
           ports:
-            - containerPort: 4001
+          - containerPort: 4001
           env:
-            - name: DB_HOST
-              value: "192.168.59.100"
-            - name: DB_PORT
-              value: "30010"
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secret
+                key: mongo-root-username      
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secret
+                key: mongo-root-password
+          - name: DB_URL
+            valueFrom:
+              configMapKeyRef:
+                name: mongodb-configmap
+                key: database_url

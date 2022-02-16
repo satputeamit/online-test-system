@@ -25,7 +25,18 @@ import { GraphQLResolverMap } from "apollo-graphql";
 
 
 async function connectDb() {
-  await mongoose.connect(`mongodb://${process.env.DB_HOST||"127.0.0.1"}:${process.env.DB_PORT||"27017"}/competitionService`);
+  // await mongoose.connect(`mongodb://${process.env.DB_HOST||"127.0.0.1"}:${process.env.DB_PORT||"27017"}/competitionService`);
+  console.log("db url :", process.env.DB_URL)
+  console.log("db user :", process.env.DB_USERNAME)
+  console.log("db pass :", process.env.DB_PASSWORD)
+
+  if (process.env.DB_USERNAME && process.env.DB_PASSWORD) {
+    console.log("connection str:",`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}:27017/competitionService?authSource=admin`)
+    await mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}/competitionService?authSource=admin`);
+  }
+  else {
+    await mongoose.connect("mongodb://127.0.0.1:27017/competitionService");
+  }
 }
 
 const server = new ApolloServer({

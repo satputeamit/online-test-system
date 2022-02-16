@@ -27,5 +27,16 @@ spec:
           env:
             - name: REACT_APP_GATEWAY_API
               value: "http://192.168.59.100:30004/graphql"
+            - name: REACT_APP_GATEWAY_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ots-configmap
+                  key: gateway_service_url
+            - name: REACT_APP_GATEWAY_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ots-configmap
+                  key: gateway_service_port
+            
 
       

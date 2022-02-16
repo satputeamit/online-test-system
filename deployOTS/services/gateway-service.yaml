@@ -5,12 +5,10 @@ metadata:
   labels:
     name: gateway-service
     app: ots-app
-spec:
-  type: NodePort
+spec:  
   ports:
     - port: 4000
-      targetPort: 4000
-      nodePort: 30004
+      targetPort: 4000      
   selector:
     name: gateway-app-pod
     app: ots-app

@@ -5,13 +5,12 @@ metadata:
   labels:
     name: db-service
     app: ots-app
-spec: 
-  type: NodePort
+spec:  
   ports:
-    - port: 27017
+    - protocol: TCP
+      port: 27017
       targetPort: 27017    
-      nodePort: 30010 
   selector:
-    name: db-pod
+    name: mongodb-pod
     app: ots-app
         

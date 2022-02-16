@@ -6,8 +6,17 @@ import { ApolloClient, InMemoryCache ,ApolloProvider, createHttpLink} from "@apo
 import { setContext } from '@apollo/client/link/context';
 
 console.log("Gateway api:",process.env.REACT_APP_GATEWAY_API)
+//add env here
+let gateway_url =""
+if(process.env.REACT_APP_GATEWAY_SERVICE_URL){
+  gateway_url = "http://"+process.env.REACT_APP_GATEWAY_SERVICE_URL+":"+process.env.REACT_APP_GATEWAY_SERVICE_PORT+"/graphql"
+}
+else{
+  gateway_url = "http://localhost:4002/graphql"
+}
+console.log("Gateway api--:",gateway_url)
 const httpLink = createHttpLink({
-  uri: process.env.REACT_APP_GATEWAY_API || 'http://localhost:4000/graphql',
+  uri: gateway_url,
 });
 
 const authLink = setContext((_, { headers }) => {

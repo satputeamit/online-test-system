@@ -24,10 +24,27 @@ spec:
           image: amitgs/gateway-service
           ports:
             - containerPort: 4000   
-          env:
-            - name: AUTH_SERVICE
-              value: "http://192.168.59.100:30005"
-            - name: COMPETITION_SERVICE
-              value: "http://192.168.59.100:30006"
+          env:   
+            - name: AUTH_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ots-configmap
+                  key: auth_service_url
+            - name: AUTH_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ots-configmap
+                  key: auth_service_port   
+            - name: COMPETITION_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ots-configmap
+                  key: competition_service_url
+            - name: COMPETITION_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ots-configmap
+                  key: competition_service_port
+           
 
       

@@ -5,12 +5,11 @@ metadata:
   labels:
     name: competition-service
     app: ots-app
-spec:
-  type: NodePort
+spec: 
   ports:
-    - port: 4002
-      targetPort: 4002
-      nodePort: 30006
+    - protocol: TCP
+      port: 4002
+      targetPort: 4002      
   selector:
     name: competition-app-pod
     app: ots-app

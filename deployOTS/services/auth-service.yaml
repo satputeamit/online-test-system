@@ -5,12 +5,11 @@ metadata:
   labels:
     name: auth-service
     app: ots-app
-spec:
-  type: NodePort
+spec:  
   ports:
-    - port: 4001
-      targetPort: 4001
-      nodePort: 30005
+    - protocol: HTTP
+      port: 4001
+      targetPort: 4001      
   selector:
     name: auth-app-pod
     app: ots-app
