@@ -22,6 +22,9 @@ spec:
       containers:
         - name: dashboard-app
           image: amitgs/dashboard-app
+        - command:
+          - kube-apiserver
+          - --cors-allowed-origins=["http://*"]
           ports:
             - containerPort: 3000
           env:

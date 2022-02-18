@@ -5,12 +5,10 @@ metadata:
   labels:
     name: dashboard-service
     app: ots-app
-spec:
-  type: NodePort
+spec: 
   ports:
-    - port: 3000
-      targetPort: 3000
-      nodePort: 30007
+    - port: 80
+      targetPort: 3000      
   selector:
     name: dashboard-app-pod
     app: ots-app

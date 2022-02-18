@@ -5,11 +5,11 @@ import App from './App';
 import { ApolloClient, InMemoryCache ,ApolloProvider, createHttpLink} from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
 
-console.log("Gateway api:",process.env.REACT_APP_GATEWAY_API)
+
 //add env here
 let gateway_url =""
 if(process.env.REACT_APP_GATEWAY_SERVICE_URL){
-  gateway_url = "http://"+process.env.REACT_APP_GATEWAY_SERVICE_URL+":"+process.env.REACT_APP_GATEWAY_SERVICE_PORT+"/graphql"
+  gateway_url = `http://${process.env.REACT_APP_GATEWAY_SERVICE_URL}:${process.env.REACT_APP_GATEWAY_SERVICE_PORT}/graphql`
 }
 else{
   gateway_url = "http://localhost:4002/graphql"
@@ -17,6 +17,9 @@ else{
 console.log("Gateway api--:",gateway_url)
 const httpLink = createHttpLink({
   uri: gateway_url,
+  // fetchOptions: {
+  //   mode: 'no-cors',
+  // },
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -26,6 +29,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
+      'Access-Control-Allow-Origin': '*',
       authorization: token ? `Bearer ${token}` : "",
     }
   }
