@@ -8,7 +8,7 @@ metadata:
 spec: 
   ports:
     - protocol: TCP
-      port: 4002
+      port: 80
       targetPort: 4002      
   selector:
     name: competition-app-pod

@@ -86,7 +86,7 @@ const SignUp = () => {
 
     useEffect(() => {
         if (error) {
-            console.log(error)
+            console.log("Signup error",error)
             setErr(true)
             setFlag(false)
         }
@@ -98,6 +98,7 @@ const SignUp = () => {
     }, [error, data])
 
     const registerUser = () => {
+        console.log("regiser user clicked")
         if (signupData.password === signupData.c_password) {
             var data = {
                 email: signupData.email,

@@ -19,12 +19,9 @@ spec:
         name: dashboard-app-pod
         app: ots-app
     spec:
-      containers:
+      containers:       
         - name: dashboard-app
           image: amitgs/dashboard-app
-        - command:
-          - kube-apiserver
-          - --cors-allowed-origins=["http://*"]
           ports:
             - containerPort: 3000
           env:
@@ -40,6 +37,6 @@ spec:
                 configMapKeyRef:
                   name: ots-configmap
                   key: gateway_service_port
-            
+        
 
       

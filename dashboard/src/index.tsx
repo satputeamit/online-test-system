@@ -9,12 +9,15 @@ import { setContext } from '@apollo/client/link/context';
 //add env here
 let gateway_url =""
 if(process.env.REACT_APP_GATEWAY_SERVICE_URL){
-  gateway_url = `http://${process.env.REACT_APP_GATEWAY_SERVICE_URL}:${process.env.REACT_APP_GATEWAY_SERVICE_PORT}/graphql`
+  // gateway_url = `http://${process.env.REACT_APP_GATEWAY_SERVICE_URL}:${process.env.REACT_APP_GATEWAY_SERVICE_PORT}/graphql`
+  gateway_url = `http://${process.env.REACT_APP_GATEWAY_SERVICE_URL}/graphql`
+
 }
 else{
-  gateway_url = "http://localhost:4002/graphql"
+  gateway_url = "http://localhost:4000/graphql"
 }
 console.log("Gateway api--:",gateway_url)
+console.log("GTAPI:",`http://${process.env.REACT_APP_GATEWAY_SERVICE_URL}/graphql`)
 const httpLink = createHttpLink({
   uri: gateway_url,
   // fetchOptions: {
@@ -22,6 +25,7 @@ const httpLink = createHttpLink({
   // },
 });
 
+console.log("createHttpLink:",httpLink)
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
   const token = localStorage.getItem('accessToken');
