@@ -10,7 +10,7 @@ import { setContext } from '@apollo/client/link/context';
 let gateway_url =""
 if(process.env.REACT_APP_GATEWAY_SERVICE_URL){
   // gateway_url = `http://${process.env.REACT_APP_GATEWAY_SERVICE_URL}:${process.env.REACT_APP_GATEWAY_SERVICE_PORT}/graphql`
-  gateway_url = `http://${process.env.REACT_APP_GATEWAY_SERVICE_URL}/graphql`
+  gateway_url = `/graphql`
 
 }
 else{
@@ -19,10 +19,7 @@ else{
 console.log("Gateway api--:",gateway_url)
 console.log("GTAPI:",`http://${process.env.REACT_APP_GATEWAY_SERVICE_URL}/graphql`)
 const httpLink = createHttpLink({
-  uri: gateway_url,
-  // fetchOptions: {
-  //   mode: 'no-cors',
-  // },
+  uri: gateway_url 
 });
 
 console.log("createHttpLink:",httpLink)
@@ -32,19 +29,20 @@ const authLink = setContext((_, { headers }) => {
   // return the headers to the context so httpLink can read them
   return {
     headers: {
-      ...headers,
-      'Access-Control-Allow-Origin': '*',
+      ...headers,      
       authorization: token ? `Bearer ${token}` : "",
     }
-  }
+  }  
 });
-
+console.log("authlink:",authLink)
 const client = new ApolloClient({
   // uri: "http://localhost:4000/graphql",
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
+  
 });
 
+console.log("client:",client)
 
 
 ReactDOM.render(

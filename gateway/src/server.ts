@@ -26,12 +26,13 @@ app.use(
   })
 );
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   res.header('Content-Type', 'application/json',)
+//   next();
+// });
 
 app.get("/", function (req, res) {
   res.send("Hello world!");
@@ -72,7 +73,8 @@ const gateway = new ApolloGateway({
         );
         // request.http.headers.set("Access-Control-Allow-Origin", "*");
         // request.http.headers.set("Access-Control-Allow-Methods", "GET, PUT, POST");
-        // request.http.headers.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+        // request.http.headers.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        // request.http.headers.set('Content-Type', 'application/json')
         
       },
     });
